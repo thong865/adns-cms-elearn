@@ -25,5 +25,12 @@ Route.get('/', async ({ view }) => {
 })
 
 
-Route.get('/login','AuthController.loginIndex').as('loginPage')
-Route.get('/register','AuthController.registerIndex').as('registerPage')
+Route.get('/login', 'AuthController.loginIndex').as('loginPage')
+Route.get('/register', 'AuthController.registerIndex').as('registerPage')
+
+
+
+Route.group(() => {
+  Route.post('register', 'AuthController.storeRegister').as('ClientRegister')
+  Route.post('signin', 'AuthController.UserLogin').as('ClientLogin')
+}).prefix('v1')
