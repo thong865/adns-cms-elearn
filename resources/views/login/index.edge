@@ -1,26 +1,27 @@
-@layout('layouts/main')
+@layout('layouts/none')
 @set('title', 'ເຂົ້າສູ່ລະບົບ')
 @section('body')
-<section class="hero is-warning">
-    <main class="bg-gray-50 dark:bg-gray-900">
+<section
+    class="bg-[url('http://127.0.0.1:3333/images/bg/bg-line-connect.jpg')] bg-cover  bg-blur h-screen fixed w-screen">
+    <main class="h-screen flex w-screen items-center justify-center">
         <div
-            class="flex max-w-[960px] max-h-[480px] items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
-            <div class="w-[50%] bg-cover  bg-[url('http://127.0.0.1:3333/images/bg/login-bg.jpg')]">
-                <div class="items-center">
-                    <h1 class="text-white text-3xl">Selangkah Lebih Dekat Dengan Impianmu</h1>
-                    <p class="text-white text-xl">Sebuah layanan E-Learning gratis yang siap membantumu menjadi seorang
-                        ahli </p>
+            class="flex max-w-[960px] max-h-[480px] content-center items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+            <div class="w-screen md:w-[50%] bg-cover bg-[url('http://127.0.0.1:3333/images/bg/login-bg.jpg')] p-9">
+                <div class="items-center mt-4">
+                    <h1 class="text-white text-3xl">{{t('login.header_image_login')}}</h1>
+                    <p class="text-white text-xl">{{t('login.description_login')}}</p>
                 </div>
             </div>
-            <div class="w-[50%] px-5 space-y-8 sm:p-8 bg-[#1C1E53]  dark:bg-gray-800">
-                <h2 class="text-2xl font-bold text-white dark:text-white">
-                    ເຂົ້າສູ່ລະບົບ
+            <div class="w-screen md:w-[50%] px-5 space-y-8 sm:p-8 bg-[#1C1E53] dark:bg-gray-800">
+                <h2 class="text-2xl font-bold text-white dark:text-white text-center">
+                    {{t('form.signin')}}
                 </h2>
                 <form class="mt-8 space-y-6" action="{{route('ClientLogin')}}" method="POST">
+                    {{ csrfField() }}
                     <div>
                         <div class="relative">
                             <input type="text" id="username"
-                                class="block px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-md border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                class="block px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-md border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-white dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                                 placeholder=" " name="username" />
                             <label for="username"
                                 class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.username')}}</label>
@@ -33,7 +34,7 @@
                     <div>
                         <div class="relative">
                             <input type="password" id="password"
-                                class="block px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-lg border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                class="block px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-lg border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
                                 placeholder=" " name="password" />
                             <label for="password"
                                 class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.password')}}</label>

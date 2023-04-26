@@ -4,10 +4,10 @@ import RegisterValidator from 'App/Validators/RegisterValidator'
 import UserLoginValidator from 'App/Validators/UserLoginValidator'
 
 export default class AuthController {
-    public async loginIndex({ view }) {
+    public async loginIndex({ view }: HttpContextContract) {
         return view.render('login/index')
     }
-    public async registerIndex({ view }) {
+    public async registerIndex({ view }: HttpContextContract) {
         return view.render('register/index')
     }
 
@@ -24,13 +24,13 @@ export default class AuthController {
     }
 
     public async UserLogin({ request, auth, response }: HttpContextContract) {
-        // try {
         const payload = await request.validate(UserLoginValidator)
-        response.status(201)
-        await Muser.create(payload)
-        return response.redirect().back()
-        // } catch (error) {
-        //     response.badRequest(error).r
-        // }
+
+        try {
+            await auth.use('web').attempt(payload.username, payload.password)
+            response.redirect('/')
+        } catch {
+            return response.badRequest('Invalid credentials')
+        }
     }
 }

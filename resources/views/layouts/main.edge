@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}</title>
-    @entryPointStyles('app')
-  </head>
-  <body>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-    </nav>
 
-    @!section('body')
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <link href="/dist/flowbite.min.css"  rel="stylesheet" />
+  @entryPointStyles('app')
+</head>
 
-    <footer class="footer">
-    </footer>
-  </body>
+<body>
+  @!component('components/toastLogin')
+  @!component('components/navbarTop')
+  @!section('body')
+
+  @!component('components/Footer')
+  <script src="/dist/flowbite.js"></script>
+</body>
+
 </html>

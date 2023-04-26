@@ -1,0 +1,20 @@
+@layout('layouts/main')
+@set('title', 'Home page')
+
+@section('body')
+<section>
+  <div class="max-w-screen-xl mx-auto">
+    @!component('components/Bredcrum')
+    <div class="py-5 flex justify-between">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Knowledge</h5>
+      <a href="">view_more</a>
+    </div>
+    <div class="grid grid-cols-3 gap-5">
+      @each(i in [1,2,3])
+        @!component('components/CardKnow')
+      @endeach
+    </div>
+  </div>
+
+</section>
+@end

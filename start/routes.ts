@@ -27,6 +27,16 @@ Route.get('/', async ({ view }) => {
 
 Route.get('/login', 'AuthController.loginIndex').as('loginPage')
 Route.get('/register', 'AuthController.registerIndex').as('registerPage')
+// Navbar Page
+Route.get('/blogs', 'PagesController.blogsPage').as('blogPage')
+Route.get('/blogs/:id', 'PagesController.blogsDetailPage').as('blogDetailPage')
+Route.get('/faq', 'PagesController.faqPage').as('faqPage')
+Route.get('/knowledge', 'PagesController.knowledgePage').as('knowledgePage')
+
+Route.group(() => {
+  Route.get('', 'PagesController.adminDashboard').as('adminDashboard')
+  Route.get('/usersManage', 'PagesController.adminUserMange').as('adminUserMange')
+}).prefix('admin').middleware('auth')
 
 
 
