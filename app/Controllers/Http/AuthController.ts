@@ -4,7 +4,7 @@ import RegisterValidator from 'App/Validators/RegisterValidator'
 import UserLoginValidator from 'App/Validators/UserLoginValidator'
 
 export default class AuthController {
-    public async loginIndex({ view,auth }: HttpContextContract) {
+    public async loginIndex({ view, auth }: HttpContextContract) {
         return view.render('login/index')
     }
     public async registerIndex({ view }: HttpContextContract) {
@@ -31,6 +31,16 @@ export default class AuthController {
             response.redirect('/')
         } catch {
             return response.badRequest('Invalid credentials')
+        }
+    }
+
+    public async userLogout({ auth, response,session }: HttpContextContract) {
+        try {
+            await auth.logout()
+            session.flash('notifySuccess','Logout')
+            response.redirect('/')
+        } catch (error) {
+            session.flash('notifyError','Logout')
         }
     }
 }
