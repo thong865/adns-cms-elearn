@@ -3,7 +3,19 @@
 
 @section('body')
 @!component('components/SectionJumHome1')
-<section>
+<section class="py-9">
+  <div class="max-w-screen-xl mx-auto py-10">
+    <div class="py-10">
+      <h1 class="text-center text-3xl">Keuntungan Bergabung Dengan  E-Learning EDUFREE</h1>
+    </div>
+    <div class="grid grid-cols-3 gap-5">
+      @each(it in [1,2,3,4,5,6])
+        @!component('components/Section-intro.edge',{data:{number:it}})
+      @endeach
+    </div>
+  </div>
+</section>
+<section class="py-9">
   <div class="max-w-screen-xl mx-auto">
     <div class="py-5 flex justify-between">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Knowledge</h5>
@@ -19,12 +31,12 @@
 </section>
 @!component('components/HomeSectionAskFreqen')
 
-<section>
+<section class="bg-primary">
   <div class="max-w-screen-xl mx-auto">
     @!component('components/RegisterWidget')
   </div>
 </section>
-<section>
+<section class="py-9 mb-9">
   <div class="max-w-screen-xl mx-auto">
     <div class="py-5 flex justify-between">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Blog</h5>

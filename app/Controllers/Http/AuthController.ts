@@ -4,7 +4,7 @@ import RegisterValidator from 'App/Validators/RegisterValidator'
 import UserLoginValidator from 'App/Validators/UserLoginValidator'
 
 export default class AuthController {
-    public async loginIndex({ view }: HttpContextContract) {
+    public async loginIndex({ view,auth }: HttpContextContract) {
         return view.render('login/index')
     }
     public async registerIndex({ view }: HttpContextContract) {

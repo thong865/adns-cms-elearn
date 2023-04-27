@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view }) => {
+Route.get('/', async ({ view,auth }) => {
   return view.render('welcome')
 })
 
@@ -37,6 +37,11 @@ Route.group(() => {
   Route.get('', 'PagesController.adminDashboard').as('adminDashboard')
   Route.get('/usersManage', 'PagesController.adminUserMange').as('adminUserMange')
 }).prefix('admin').middleware('auth')
+
+
+Route.group(()=> {
+  Route.get('/','PagesController.userLoginProfile').as('userProfilePage')
+}).prefix('myprf').middleware(['auth'])
 
 
 

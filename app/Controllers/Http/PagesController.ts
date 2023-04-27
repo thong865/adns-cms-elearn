@@ -25,9 +25,15 @@ export default class PagesController {
         })
     }
 
+    // client profile
+    public async userLoginProfile({ view,auth}: HttpContextContract) {
+        await auth.use('web').authenticate()
+        return view.render('profile/index')
+    }
 
     //adminDashboard
-    public async adminDashboard({ view }: HttpContextContract) {
+    public async adminDashboard({ view,auth}: HttpContextContract) {
+        await auth.use('web').authenticate()
         return view.render('admin/dashboard')
     }
     public async adminUserMange({ view }: HttpContextContract) {
