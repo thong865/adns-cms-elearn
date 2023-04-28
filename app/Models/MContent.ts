@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasOne, beforeSave, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import MContentCategory from 'App/Models/MContentCategory'
 
 export default class MContent extends BaseModel {
   public static table = 'sstb_contents'
   @column({ isPrimary: true })
   public id: number
+  @column()
+  public background: string
   @column()
   public title: string
   @column()
@@ -28,4 +30,13 @@ export default class MContent extends BaseModel {
     foreignKey: 'id'
   })
   public category: HasOne<typeof MContentCategory>
+
+
+  @beforeSave()
+  public static async categorySlug(con: MContent) {
+    if (con.$dirty.cateId) {
+      const slug = await MContentCategory.findOrFail(con.cateId)
+      con.slug = slug.slug
+    }
+  }
 }

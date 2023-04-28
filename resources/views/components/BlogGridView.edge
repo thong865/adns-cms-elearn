@@ -1,0 +1,5 @@
+<div class="grid grid-cols-3 gap-3">
+    @each((bit,i) in blogs)
+        @!component('components/CardBlog',{data:bit,ImageClass:'max-h-[285px]'})
+    @endeach
+</div>

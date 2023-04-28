@@ -1,0 +1,23 @@
+<div class="flex md:flex-wrap relative">
+    @each((bit,i) in blogs)
+        @if(i < 5) 
+            @if(i==0) 
+                <div class="w-100 md:w-7/12 lg:w-7/12 px-3">
+                @!component('components/CardBlog',{data:bit,ImageClass:'max-h-[368px]'})
+                </div>
+                <div class="md:w-5/12 lg:w-5/12">
+            @else
+                @!component('components/CardBlogList',{data:bit})
+            @endif
+            @if(i == 4)
+                </div>
+                </div>
+                <div class="flex flex-cols md:flex-wrap">
+            @endif
+        @else
+            <div class="md:w-4/12 px-3">
+                @!component('components/CardBlog',{data:bit,ImageClass:'max-h-[285px]'})
+            </div>
+        @endif
+    @endeach
+</div>

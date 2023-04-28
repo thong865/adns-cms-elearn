@@ -5,8 +5,9 @@ export default Factory.define(MContent, ({ faker }) => {
   return {
     title: faker.lorem.sentence(),
     body:faker.lorem.paragraphs(20),
-    slug:'BLOG',
-    cateId:1,
+    background:faker.image.imageUrl.toString(),
+    slug:'KNWL',
+    cateId:6,
     status:'P'
   }
 }).build()

@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import MContent from 'App/Models/MContent'
+import MContentCategory from 'App/Models/MContentCategory'
 import ContentValidator from 'App/Validators/ContentValidator'
 
 export default class AdminBlogsController {
@@ -11,18 +12,23 @@ export default class AdminBlogsController {
     }
 
     public async adminBlogsStore({ request, response }: HttpContextContract) {
-        const payload = await request.validate(ContentValidator)
         try {
-            //  await MContent.create()
-
-            return payload
+            
+            const payload = await request.validate(ContentValidator)
+             await MContent.create(payload)
+            response.redirect().back()
+            // return payload
         } catch (error) {
-            return response.status(200).json(error)
+            console.log(error)
+            // return response.status(200).json(error)
         }
     }
 
 
     public async adminBlogsForm({ view }: HttpContextContract) {
-        return view.render('admin/blogs/form')
+        const categories = await MContentCategory.query().where('slug', 'BLOG')
+        return view.render('admin/blogs/form', {
+            categories
+        })
     }
 }

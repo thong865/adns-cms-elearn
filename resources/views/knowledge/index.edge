@@ -27,8 +27,8 @@
 
     </div>
     <div class="grid grid-cols-3 gap-5">
-      @each(i in [1,2,3])
-        @!component('components/CardKnow')
+      @each(ci in conents)
+        @!component('components/CardKnow',{data:ci,ImageClass:'max-h-[283px]'})
       @endeach
     </div>
   </div>

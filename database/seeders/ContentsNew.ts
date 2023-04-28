@@ -3,6 +3,6 @@ import ContentsNewFactory from 'Database/factories/ContentsNewFactory'
 
 export default class extends BaseSeeder {
   public async run () {
-    await ContentsNewFactory.createMany(15)
+    await ContentsNewFactory.createMany(5)
   }
 }

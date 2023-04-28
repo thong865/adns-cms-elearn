@@ -27,15 +27,10 @@
       </form>
 
     </div>
-    <div class="mb-5">
-      <div class="grid grid-cols-3 gap-5 ">
-        @each(bit in blogs)
-        @!component('components/CardBlog',{data:bit})
-        @endeach
-      </div>
-    </div>
-
-  </div>
+    <div class="mb-5 ">
+      {{--  @!component('components/BlogGridView',{blogs:blogs,ImageClass:'max-h-[368px]'})  --}}
+      @!component('components/BlogMonView',{blogs:blogs,ImageClass:'max-h-[368px]'})
+    </div>  
 
 </section>
 @end

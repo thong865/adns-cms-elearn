@@ -26,8 +26,8 @@ export default class ContentValidator {
   public schema = schema.create({
     title: schema.string(),
     body: schema.string(),
-    cateId: schema.string(),
-    slug: schema.string()
+    cateId: schema.number(),
+    // slug: schema.string()
   })
 
   /**

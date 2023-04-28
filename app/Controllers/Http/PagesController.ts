@@ -6,8 +6,19 @@ export default class PagesController {
     public async HomePage({ view }: HttpContextContract) {
         return view.render('welcome')
     }
-    public async knowledgePage({ view }: HttpContextContract) {
-        return view.render('knowledge/index')
+    public async knowledgePage({ request, view }: HttpContextContract) {
+        const { qkey } = request.all()
+        let conents;
+        if (qkey) {
+            conents = await MContent.query().where('slug', 'KNWL').andWhereRaw(`title like '%${qkey ? qkey : ''}%'`).paginate(1, 50)
+        } else {
+            conents = await MContent.query().where('slug', 'KNWL').paginate(1, 50)
+        }
+        return view.render('knowledge/index', {
+            conents, qkey: {
+                q: qkey ? qkey : ''
+            }
+        })
     }
     public async faqPage({ view }: HttpContextContract) {
         return view.render('Faq/index')
@@ -45,14 +56,14 @@ export default class PagesController {
         await auth.use('web').authenticate()
         return view.render('admin/dashboard')
     }
-   
+
     public async adminBlogs({ view }: HttpContextContract) {
         const Users = await Muser.query().paginate(1, 50)
         return view.render('admin/users/index', {
             users: Users
         })
     }
-    public async adminBlogsDetial({params, view }: HttpContextContract) {
+    public async adminBlogsDetial({ params, view }: HttpContextContract) {
         const Users = await Muser.query().paginate(1, 50)
         return view.render('admin/users/index', {
             users: Users
