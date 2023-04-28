@@ -45,12 +45,7 @@ export default class PagesController {
         await auth.use('web').authenticate()
         return view.render('admin/dashboard')
     }
-    public async adminUserMange({ view }: HttpContextContract) {
-        const Users = await Muser.query().paginate(1, 50)
-        return view.render('admin/users/index', {
-            users: Users
-        })
-    }
+   
     public async adminBlogs({ view }: HttpContextContract) {
         const Users = await Muser.query().paginate(1, 50)
         return view.render('admin/users/index', {

@@ -1,0 +1,33 @@
+@layout('layouts/auth')
+@set('title', 'Users Management')
+@section('styles')
+@end
+@section('body')
+<section class="mt-6">
+    <form method="POST" action="{{route('ContentCreate')}}">
+        {{ csrfField() }}
+        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+            <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+                {{t('form.createBlog')}}
+            </h5>
+            <div class="relative z-0">
+                <input type="text" id="small_standard"
+                    class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" " />
+                <label for="small_standard"
+                    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Small
+                    standard</label>
+            </div>
+            <h1 class="py-5">Content</h1>
+            <textarea id="editor1" name="body"></textarea>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</section>
+@end
+@section('scripts')
+<script src="/dist/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor1');
+</script>
+@end

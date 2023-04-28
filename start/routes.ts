@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async ({ view,auth }) => {
+Route.get('/', async ({ view, auth }) => {
   return view.render('welcome')
 }).middleware(['slient'])
 
@@ -35,12 +35,18 @@ Route.get('/knowledge', 'PagesController.knowledgePage').as('knowledgePage').mid
 
 Route.group(() => {
   Route.get('', 'PagesController.adminDashboard').as('adminDashboard')
-  Route.get('/usersManage', 'PagesController.adminUserMange').as('adminUserMange')
+  Route.get('/usersManage', 'UsersController.adminUserMange').as('adminUserMange')
+
+  // this for blogs and content
+  Route.get('/blogsManage', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
+
+  //form to create
+  Route.get('/blogsManage/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
 }).prefix('admin').middleware('auth')
 
 
-Route.group(()=> {
-  Route.get('/','PagesController.userLoginProfile').as('userProfilePage')
+Route.group(() => {
+  Route.get('/', 'PagesController.userLoginProfile').as('userProfilePage')
 }).prefix('myprf').middleware(['auth'])
 
 
@@ -49,4 +55,10 @@ Route.group(() => {
   Route.post('register', 'AuthController.storeRegister').as('ClientRegister')
   Route.post('signin', 'AuthController.UserLogin').as('ClientLogin')
   Route.post('logout', 'AuthController.userLogout').as('ClientLogout')
+
+
+  Route.group(() => {
+
+    Route.post('create', 'AdminBlogsController.adminBlogsStore').as('ContentCreate')
+  }).prefix('content')
 }).prefix('v1')
