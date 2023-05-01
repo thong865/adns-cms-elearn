@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import MContent from 'App/Models/MContent'
 import MContentCategory from 'App/Models/MContentCategory'
 import ContentValidator from 'App/Validators/ContentValidator'
+import SectionValidator from 'App/Validators/SectionValidator'
 
 export default class AdminBlogsController {
     public async adminBlogsMange({ view }: HttpContextContract) {
@@ -11,12 +12,12 @@ export default class AdminBlogsController {
         })
     }
 
-    public async adminBlogsStore({ request, response }: HttpContextContract) {
+    public async adminBlogsStore({ request, session, response }: HttpContextContract) {
         try {
-            
             const payload = await request.validate(ContentValidator)
-             await MContent.create(payload)
-            response.redirect().back()
+            await MContent.create(payload)
+            session.flash('notifySuccess', { message: 'create_success' })
+            response.redirect('/admin/blogsManage')
             // return payload
         } catch (error) {
             console.log(error)
@@ -25,10 +26,50 @@ export default class AdminBlogsController {
     }
 
 
+
+
     public async adminBlogsForm({ view }: HttpContextContract) {
         const categories = await MContentCategory.query().where('slug', 'BLOG')
         return view.render('admin/blogs/form', {
             categories
         })
+    }
+
+
+    // 
+    public async adminSections({ view }: HttpContextContract) {
+        const data = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).paginate(1, 50)
+        return view.render('admin/sections/index', {
+            data
+        })
+    }
+    public async adminSectionsForm({ request, view }: HttpContextContract) {
+        try {
+            const { typ, id } = request.all()
+            let content;
+            if (typ == 'edit' && id) {
+                content = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).where('id', id).first()
+            }
+            const categories = await MContentCategory.query().whereIn('slug', ['QAFG', 'HOME1'])
+            return view.render('admin/sections/form', {
+                categories,
+                content,
+                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
+            })
+        } catch (error) {
+
+        }
+
+    }
+
+
+    public async ContentUpdate({ request, response }: HttpContextContract) {
+        const { typ,id} = request.all()
+        let playload;
+        // if(typ){
+            playload = await request.validate(SectionValidator)
+        // }
+        const content = await MContent.query().where('id', id).update(playload)
+        response.redirect('/admin/sections')
     }
 }

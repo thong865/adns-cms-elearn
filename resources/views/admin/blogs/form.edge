@@ -10,28 +10,66 @@
             <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
                 {{t('form.createBlog')}}
             </h5>
-            <div class="relative z-0">
-                <input type="text" id="small_standard"
-                    class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" " name="title" />
-                <label for="small_standard"
-                    class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Small
-                    standard</label>
-            </div>
-            <div>
-                <label for="countries_disabled"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('form.category')}}</label>
-                <select id="countries_disabled" name="cateId"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    @each(ci in categories)
-                    <option value="{{ci.id}}">{{ci.title}}</option>
-                    @endeach
-                </select>
-            </div>
+            <div class="flex gap-3">
+                <div>
+                    <div class="relative z-0">
+                        <input type="text" id="small_standard"
+                            class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="title" />
+                        <label for="small_standard"
+                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Small
+                            standard</label>
+                    </div>
+                    <div>
+                        <label for="countries_disabled"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('form.category')}}</label>
+                        <select id="countries_disabled" name="cateId"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @each(ci in categories)
+                            <option value="{{ci.id}}">{{ci.title}}</option>
+                            @endeach
+                        </select>
+                    </div>
 
-            <h1 class="py-5">Content</h1>
-            <textarea id="editor1" name="body"></textarea>
-            <button type="submit">Submit</button>
+                    <h1 class="py-5">Content</h1>
+                    <textarea id="editor1" name="body"></textarea>
+                </div>
+                <div>
+                    <div>
+                        <h1>Background</h1>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="dropzone-file"
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                        </path>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                            class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX.
+                                        800x400px)</p>
+                                </div>
+                                <input id="dropzone-file" type="file" class="hidden" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="relative z-0 mt-5">
+                        <input type="text" id="small_tags"
+                            class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="title" />
+                        <label for="small_tags"
+                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Tags</label>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <div></div>
+                <button type="submit"
+                    class="mt-5 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">{{t('form.save')}}</button>
+            </div>
         </div>
     </form>
 </section>
@@ -39,6 +77,10 @@
 @section('scripts')
 <script src="/dist/ckeditor/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace('editor1');
+
+    CKEDITOR.replace('editor1', {
+        filebrowserUploadUrl: `/v1/fileupload?_csrf=${document.getElementsByName('_csrf')[0].value}`,
+        filebrowserMedthod: 'form'
+    });
 </script>
 @end

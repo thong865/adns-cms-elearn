@@ -19,10 +19,8 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/', async ({ view, auth }) => {
-  return view.render('welcome')
-}).middleware(['slient'])
+import Application from '@ioc:Adonis/Core/Application'
+Route.get('/','PagesController.HomePage').middleware(['slient'])
 
 
 Route.get('/login', 'AuthController.loginIndex').as('loginPage').middleware(['checkMe'])
@@ -42,6 +40,12 @@ Route.group(() => {
 
   //form to create
   Route.get('/blogsManage/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
+  Route.get('/content/:id', 'PagesController.adminBlogsDetial').as('adminContentDetail')
+
+
+  // section part
+  Route.get('/sections/', 'AdminBlogsController.adminSections').as('adminSection')
+  Route.get('/sections/form', 'AdminBlogsController.adminSectionsForm').as('adminSectionForm')
 }).prefix('admin').middleware('auth')
 
 
@@ -60,5 +64,20 @@ Route.group(() => {
   Route.group(() => {
 
     Route.post('create', 'AdminBlogsController.adminBlogsStore').as('ContentCreate')
+    Route.put('update', 'AdminBlogsController.ContentUpdate').as('ContentUpdate')
+    Route.delete(':id', 'PagesController.adminBlogsDelete').as('ContentDelete')
   }).prefix('content')
+
+  Route.post('fileupload', async ({ request }) => {
+    const files = request.files('upload')
+    let resFile = [];
+  
+    for (let image of files) {
+      const data =   await image.move(Application.tmpPath('uploads'))
+      resFile.push({file:'asdfasdf'})
+    }
+  })
 }).prefix('v1')
+
+
+

@@ -7,6 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table.string('title', 100)
+      table.string('slug', 50)
       table.text('description')
     })
   }

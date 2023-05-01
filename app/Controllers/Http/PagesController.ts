@@ -4,7 +4,16 @@ import Muser from 'App/Models/Muser'
 
 export default class PagesController {
     public async HomePage({ view }: HttpContextContract) {
-        return view.render('welcome')
+        const QAFrequency = await MContent.query().where('slug', 'QAFG')
+        const Sections = await MContent.query().where('slug', 'HOME1')
+        const blogs = await MContent.query().where('slug', 'BLOG')
+        const knowledges = await MContent.query().where('slug', 'KNWL')
+        return view.render('welcome',{
+            QAFrequency,
+            Sections,
+            knowledges,
+            blogs
+        })
     }
     public async knowledgePage({ request, view }: HttpContextContract) {
         const { qkey } = request.all()
@@ -64,9 +73,24 @@ export default class PagesController {
         })
     }
     public async adminBlogsDetial({ params, view }: HttpContextContract) {
-        const Users = await Muser.query().paginate(1, 50)
-        return view.render('admin/users/index', {
-            users: Users
+        const contents = await MContent.query().where('id',params.id).first()
+        return view.render('admin/contentInfo', {
+            contents
         })
+    }
+
+
+    // Content
+
+    public async adminBlogsDelete({ params,response}: HttpContextContract) {
+        try {
+            (await MContent.findOrFail(params.id)).delete()
+            response.status(201)
+            return {
+                message:'completed'
+            }
+        } catch (error) {
+            
+        }
     }
 }

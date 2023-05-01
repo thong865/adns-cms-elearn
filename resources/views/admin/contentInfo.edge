@@ -1,0 +1,15 @@
+@layout('layouts/auth')
+@set('title', 'Home page')
+
+@section('body')
+<section>
+  <div class="max-w-screen-xl mx-auto">
+    <div class="py-5 flex justify-between">
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{contents.title}}</h5>
+      <a href="">view_more</a>
+    </div>
+    {{{contents.body}}}
+  </div>
+
+</section>
+@end

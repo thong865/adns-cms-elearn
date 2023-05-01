@@ -5,6 +5,7 @@ import UserLoginValidator from 'App/Validators/UserLoginValidator'
 
 export default class AuthController {
     public async loginIndex({ view, auth }: HttpContextContract) {
+        await auth.check()
         return view.render('login/index')
     }
     public async registerIndex({ view }: HttpContextContract) {
@@ -23,14 +24,15 @@ export default class AuthController {
         // }
     }
 
-    public async UserLogin({ request, auth, response }: HttpContextContract) {
+    public async UserLogin({ request, auth,session, response }: HttpContextContract) {
         const payload = await request.validate(UserLoginValidator)
 
         try {
             await auth.use('web').attempt(payload.username, payload.password)
             response.redirect('/')
         } catch {
-            return response.badRequest('Invalid credentials')
+            session.flash('notifyError','Login Failer')
+            return response.redirect().back()
         }
     }
 

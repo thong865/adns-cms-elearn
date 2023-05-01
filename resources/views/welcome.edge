@@ -3,18 +3,22 @@
 
 @section('body')
 @!component('components/SectionJumHome1')
+
+@if(Sections.length >0)
 <section class="py-9">
   <div class="max-w-screen-xl mx-auto py-10">
     <div class="py-10">
       <h1 class="text-center text-3xl">Keuntungan Bergabung Dengan  E-Learning EDUFREE</h1>
     </div>
     <div class="grid grid-cols-3 gap-5">
-      @each(it in [1,2,3,4,5,6])
-        @!component('components/Section-intro.edge',{data:{number:it}})
+      @each((it,index) in Sections)
+        @!component('components/Section-intro.edge',{data:{number:index+1,title:it.title,content:it.body}})
       @endeach
     </div>
   </div>
 </section>
+@endif
+@if(knowledges.length > 0)
 <section class="py-9">
   <div class="max-w-screen-xl mx-auto">
     <div class="py-5 flex justify-between">
@@ -22,14 +26,16 @@
       <a href="">view_more</a>
     </div>
     <div class="grid grid-cols-3 gap-5">
-      @each(i in [1,2,3])
-        @!component('components/CardKnow')
+      @each((t,i) in knowledges)
+        @!component('components/CardKnow',{data:t})
       @endeach
     </div>
   </div>
-
 </section>
-@!component('components/HomeSectionAskFreqen')
+@endif
+@if(QAFrequency.length > 0)
+  @!component('components/HomeSectionAskFreqen',{data:QAFrequency})
+@endif
 @if(!auth.isLoggedIn)
 <section class="bg-primary">
   <div class="max-w-screen-xl mx-auto">
@@ -37,6 +43,7 @@
   </div>
 </section>
 @endif
+@if(blogs.length > 0)
 <section class="py-9 mb-9">
   <div class="max-w-screen-xl mx-auto">
     <div class="py-5 flex justify-between">
@@ -44,11 +51,11 @@
       <a href="">view_more</a>
     </div>
     <div class="grid grid-cols-3 gap-5">
-      @each(i in [1,2,3])
-        @!component('components/CardBlog')
+      @each((t,i) in blogs)
+        @!component('components/CardBlog',{data:t})
       @endeach
     </div>
   </div>
-
 </section>
+@endif
 @end
