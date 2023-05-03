@@ -6,8 +6,8 @@ export default class PagesController {
     public async HomePage({ view }: HttpContextContract) {
         const QAFrequency = await MContent.query().where('slug', 'QAFG')
         const Sections = await MContent.query().where('slug', 'HOME1')
-        const blogs = await MContent.query().where('slug', 'BLOG')
-        const knowledges = await MContent.query().where('slug', 'KNWL')
+        const blogs = await MContent.query().where('slug', 'BLOG').paginate(1,8)
+        const knowledges = await MContent.query().where('slug', 'KNWL').paginate(1,8)
         return view.render('welcome',{
             QAFrequency,
             Sections,
@@ -47,9 +47,9 @@ export default class PagesController {
             }
         })
     }
-    public async blogsDetailPage({ view, params, request }: HttpContextContract) {
-        const blogs = await MContent.query().preload('category').firstOrFail()
-        return view.render('blog/detail', {
+    public async ContentDetail({ view, params, request }: HttpContextContract) {
+        const blogs = await MContent.query().where('id',params.id).preload('category').first()
+        return view.render('content-detail', {
             blogs
         })
     }

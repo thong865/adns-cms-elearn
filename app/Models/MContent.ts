@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon'
+const moment = require('moment')
 import { BaseModel, HasOne, beforeSave, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import MContentCategory from 'App/Models/MContentCategory'
 
@@ -19,7 +20,9 @@ export default class MContent extends BaseModel {
   @column({ columnName: 'stat' })
   public status: string
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true ,consume:((val)=> {
+    return moment(val).format('MM/DD/YYYY')
+  })})
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })

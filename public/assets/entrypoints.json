@@ -2,15 +2,15 @@
   "entrypoints": {
     "app": {
       "css": [
-        "http://192.168.1.14:5000/assets/app.css"
+        "/assets/app.31a12984.css"
       ],
       "js": [
-        "http://192.168.1.14:5000/assets/app.js"
+        "/assets/app.31d6cfe0.js"
       ]
     },
     "AppService": {
       "js": [
-        "http://192.168.1.14:5000/assets/AppService.js"
+        "/assets/AppService.33078016.js"
       ]
     }
   }

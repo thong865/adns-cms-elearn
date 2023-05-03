@@ -27,9 +27,10 @@ Route.get('/login', 'AuthController.loginIndex').as('loginPage').middleware(['ch
 Route.get('/register', 'AuthController.registerIndex').as('registerPage').middleware(['checkMe'])
 // Navbar Page
 Route.get('/blogs', 'PagesController.blogsPage').as('blogPage').middleware(['slient'])
-Route.get('/blogs/:id', 'PagesController.blogsDetailPage').as('blogDetailPage').middleware(['slient'])
+// Route.get('/blogs/:id', 'PagesController.blogsDetailPage').as('blogDetailPage').middleware(['slient'])
 Route.get('/faq', 'PagesController.faqPage').as('faqPage').middleware(['slient'])
 Route.get('/knowledge', 'PagesController.knowledgePage').as('knowledgePage').middleware(['slient'])
+Route.get('/content/:id', 'PagesController.ContentDetail').as('ContentDetail').middleware(['slient'])
 
 Route.group(() => {
   Route.get('', 'PagesController.adminDashboard').as('adminDashboard')

@@ -1,5 +1,5 @@
 <div class="bg-white dark:bg-gray-800 dark:border-gray-700">
-    <a href="{{route('blogDetailPage',{id:data?.id})}}">
+    <a href="{{route('ContentDetail',{id:data?.id})}}">
         <img class="{{ImageClass}} w-full"
             src="{{data?.background}}"
             alt="{{data?.title}}" />
@@ -14,11 +14,11 @@
             </svg>
             {{data?.createdAt}}
         </div>
-        <a href="{{route('blogDetailPage',{id:data?.id})}}">
-            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{data?.title}}</h5>
+        <a href="{{route('ContentDetail',{id:data?.id})}}">
+            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white text-ellipsis overflow-hidden">{{data?.title}}</h5>
         </a>
         <p class="mb-3 font-normal text-gray-700 truncate dark:text-gray-400">{{{data?.body}}}</p>
-        <a href="{{route('blogDetailPage',{id:data?.id})}}" class="flex">
+        <a href="{{route('ContentDetail',{id:data?.id})}}" class="flex">
             Read more
             <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
