@@ -15,6 +15,7 @@ export default class AdminBlogsController {
     public async adminBlogsStore({ request, session, response }: HttpContextContract) {
         try {
             const payload = await request.validate(ContentValidator)
+            console.log(payload)
             await MContent.create(payload)
             session.flash('notifySuccess', { message: 'create_success' })
             response.redirect('/admin/blogsManage')
@@ -71,5 +72,30 @@ export default class AdminBlogsController {
         // }
         const content = await MContent.query().where('id', id).update(playload)
         response.redirect('/admin/sections')
+    }
+
+
+    public async adminknowledges({view}:HttpContextContract){
+        const data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 50)
+        return view.render('admin/knowledge/index', {
+            data
+        })
+    }
+    public async adminknowledgesForm({request,view}:HttpContextContract){
+        try {
+            const { typ, id } = request.all()
+            let content;
+            if (typ == 'edit' && id) {
+                content = await MContent.query().preload('category').whereIn('slug', ['KNWL']).where('id', id).first()
+            }
+            const categories = await MContentCategory.query().whereIn('slug', ['KNWL'])
+            return view.render('admin/knowledge/form', {
+                categories,
+                content,
+                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
+            })
+        } catch (error) {
+
+        }
     }
 }

@@ -1,10 +1,4 @@
 {
-    "navtop": [
-        {
-            "id": 1,
-            "title": "HOME",
-            "order": 1,
-            "link": ""
-        }
-    ]
+    "HomePage":"ໜ້າທຳອິດ",
+    "view_more":"view more"
 }

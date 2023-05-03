@@ -1,18 +1,18 @@
 @layout('layouts/none')
-@set('title', 'ເຂົ້າສູ່ລະບົບ')
+@set('title', 'NT2-ICT-Login')
 @section('body')
 <section
-    class="bg-[url('http://127.0.0.1:3333/images/bg/bg-line-connect.jpg')] bg-cover  bg-blur h-screen fixed w-screen">
-    <main class="h-screen flex w-screen items-center justify-center">
+    class="bg-[url('http://192.168.1.14:3333/images/bg/bg-line-connect.jpg')] bg-cover  bg-blur h-screen fixed w-screen">
+    <main class="h-screen flex md:flex-row lg:flex-row w-screen items-center justify-center ">
         <div
-            class="flex max-w-[960px] max-h-[480px] content-center items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
-            <div class="w-screen md:w-[50%] bg-cover bg-[url('http://127.0.0.1:3333/images/bg/login-bg.jpg')] p-9">
+            class="flex flex-col md:flex-row lg:flex-row w-full max-w-[960px] h-auto md:max-h-[480px] lg:max-h-[480px] content-center items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+            <div class="w-screen hidden md:block md:w-[50%] bg-cover bg-[url('http://192.168.1.14:3333/images/bg/login-bg.jpg')] p-9">
                 <div class="items-center mt-4">
                     <h1 class="text-white text-3xl">{{t('login.header_image_login')}}</h1>
                     <p class="text-white text-xl">{{t('login.description_login')}}</p>
                 </div>
             </div>
-            <div class="w-screen md:w-[50%] px-5 space-y-8 sm:p-8 bg-[#1C1E53] dark:bg-gray-800">
+            <div class="md:w-[50%] px-5 sm:rounded-xl md:rounded-none py-5 space-y-8 bg-primary dark:bg-gray-800">
                 <h2 class="text-2xl font-bold text-white dark:text-white text-center">
                     {{t('form.signin')}}
                 </h2>

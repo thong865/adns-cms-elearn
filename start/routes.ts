@@ -20,7 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import Application from '@ioc:Adonis/Core/Application'
-Route.get('/','PagesController.HomePage').middleware(['slient'])
+Route.get('/', 'PagesController.HomePage').middleware(['slient'])
 
 
 Route.get('/login', 'AuthController.loginIndex').as('loginPage').middleware(['checkMe'])
@@ -41,6 +41,10 @@ Route.group(() => {
   //form to create
   Route.get('/blogsManage/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
   Route.get('/content/:id', 'PagesController.adminBlogsDetial').as('adminContentDetail')
+
+  // knowledge
+  Route.get('/knowledges', 'AdminBlogsController.adminknowledges').as('adminknowledges')
+  Route.get('/knowledges/form', 'AdminBlogsController.adminknowledgesForm').as('adminknowledgesForm')
 
 
   // section part
@@ -68,14 +72,21 @@ Route.group(() => {
     Route.delete(':id', 'PagesController.adminBlogsDelete').as('ContentDelete')
   }).prefix('content')
 
-  Route.post('fileupload', async ({ request }) => {
-    const files = request.files('upload')
+  Route.post('fileuploadCk', async ({ request, response }) => {
+    const  files  = request.files('upload')
     let resFile = [];
-  
+
     for (let image of files) {
-      const data =   await image.move(Application.tmpPath('uploads'))
-      resFile.push({file:'asdfasdf'})
+    await image.move(Application.tmpPath('uploads'))
+
+      resFile.push({ url: `http://192.168.1.14:3333/v1/filestream?fileUrl=${image.fileName}` })
     }
+    return  response.json(resFile)
+  })
+  Route.get('filestream', async ({ request, response }) => {
+    const { fileUrl } = request.all()
+    const filePath = Application.tmpPath(`uploads/${fileUrl}`)
+    response.download(filePath, true)
   })
 }).prefix('v1')
 
