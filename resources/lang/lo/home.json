@@ -1,4 +1,14 @@
 {
-    "btn_knowledge":"Knowledges",
-    "section-1":"division"
+    "btn_knowledge": "ความรู้",
+    "section-1": "ลวบลวมเรื่องความรู้ด้านไอทีที่คุณสนใจ",
+    "hadcarone": {
+        "title": "ระบบสารสนเทศ",
+        "subtitle": "เพื่อจัดการความรู้การปฏิบัติงานด้าน ICT บริษัทเขื่อนไฟฟ้าน้ำเทิน 2",
+        "titleStyle": {
+            "className": "mb-4 text-5xl font-extrabold tracking-tight leading-none md:text-4xl lg:text-5xl text-base-200"
+        },
+        "subtitleStyle": {
+            "className": "mb-6 text-3xl font-normal text-gray-500 lg:text-xl lg:text-base-200 dark:text-gray-400"
+        }
+    }
 }

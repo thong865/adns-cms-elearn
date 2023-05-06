@@ -12,7 +12,8 @@ module.exports = {
     colors:{
       primary:'#1C1E53',
       accent:'#ffff',
-      warning:'#FF9119'
+      warning:'#FF9119',
+      'footer-primary':'#f7f7f7'
     }
   },
   plugins: [
