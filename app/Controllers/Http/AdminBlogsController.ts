@@ -5,10 +5,18 @@ import ContentValidator from 'App/Validators/ContentValidator'
 import SectionValidator from 'App/Validators/SectionValidator'
 
 export default class AdminBlogsController {
-    public async adminBlogsMange({ view }: HttpContextContract) {
-        const blogs = await MContent.query().preload('category').where('slug', 'BLOG').paginate(1, 50)
+    public async adminBlogsMange({ request, view }: HttpContextContract) {
+        const { search, type } = request.all()
+        let blogs;
+        if (search && search != '' || type && type != '') {
+            blogs = await MContent.query().preload('category').where('slug', 'BLOG').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            blogs = await MContent.query().preload('category').where('slug', 'BLOG').paginate(1, 8)
+        }
+        console.log(blogs)
         return view.render('admin/blogs/index', {
-            blogs
+            blogs,
+            search: search ? search : ''
         })
     }
 
@@ -29,10 +37,16 @@ export default class AdminBlogsController {
 
 
 
-    public async adminBlogsForm({ view }: HttpContextContract) {
+    public async adminBlogsForm({ request, view }: HttpContextContract) {
+        const { type,id } = request.all()
+        let blog;
+        if (type == 'edit' && id) {
+            blog = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).where('id', id).first()
+        }
         const categories = await MContentCategory.query().where('slug', 'BLOG')
         return view.render('admin/blogs/form', {
-            categories
+            categories,
+            type: { method: type == 'edit' ? 'PUT' : 'POST', route: type == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
         })
     }
 
@@ -65,23 +79,23 @@ export default class AdminBlogsController {
 
 
     public async ContentUpdate({ request, response }: HttpContextContract) {
-        const { typ,id} = request.all()
+        const { typ, id } = request.all()
         let playload;
         // if(typ){
-            playload = await request.validate(SectionValidator)
+        playload = await request.validate(SectionValidator)
         // }
         const content = await MContent.query().where('id', id).update(playload)
         response.redirect('/admin/sections')
     }
 
 
-    public async adminknowledges({view}:HttpContextContract){
+    public async adminknowledges({ view }: HttpContextContract) {
         const data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 50)
         return view.render('admin/knowledge/index', {
             data
         })
     }
-    public async adminknowledgesForm({request,view}:HttpContextContract){
+    public async adminknowledgesForm({ request, view }: HttpContextContract) {
         try {
             const { typ, id } = request.all()
             let content;
