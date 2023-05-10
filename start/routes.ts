@@ -29,6 +29,7 @@ Route.get('/register', 'AuthController.registerIndex').as('registerPage').middle
 Route.get('/blogs', 'PagesController.blogsPage').as('blogPage').middleware(['slient'])
 // Route.get('/blogs/:id', 'PagesController.blogsDetailPage').as('blogDetailPage').middleware(['slient'])
 Route.get('/faq', 'PagesController.faqPage').as('faqPage').middleware(['slient'])
+Route.get('/other', 'PagesController.otherPage').as('otherPage').middleware(['slient'])
 Route.get('/knowledge', 'PagesController.knowledgePage').as('knowledgePage').middleware(['slient'])
 Route.get('/content/:id', 'PagesController.ContentDetail').as('ContentDetail').middleware(['slient'])
 

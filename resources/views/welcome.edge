@@ -1,9 +1,9 @@
 @layout('layouts/main')
 @set('title', 'Namthuen 2 ICT')
-
+@set('categories',category)
+@set('otherItem',otherItem)
 @section('body')
 @!component('components/SectionJumHome1')
-
 @if(Sections.length >0)
 <section class="py-9 px-5 md:px-0 lg:px-0">
   <div class="max-w-screen-xl mx-auto py-10">

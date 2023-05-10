@@ -2,14 +2,18 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Muser from 'App/Models/Muser'
 import RegisterValidator from 'App/Validators/RegisterValidator'
 import UserLoginValidator from 'App/Validators/UserLoginValidator'
-
+import Env from '@ioc:Adonis/Core/Env'
 export default class AuthController {
     public async loginIndex({ view, auth }: HttpContextContract) {
         await auth.check()
-        return view.render('login/index')
+        return view.render('login/index',{
+            background: Env.get('URLASSETS')+'/images/bg/bg-line-connect.jpg'
+        })
     }
     public async registerIndex({ view }: HttpContextContract) {
-        return view.render('register/index')
+        return view.render('register/index',{
+            background: Env.get('URLASSETS')+'/images/bg/bg-line-connect.jpg'
+        })
     }
 
 

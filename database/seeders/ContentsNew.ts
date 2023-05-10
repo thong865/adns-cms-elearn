@@ -54,6 +54,10 @@ export default class extends BaseSeeder {
       {
         title:'ฝ่ายสนับสนุนด้านไอที',
         slug:'KNWL'
+      },
+      {
+        title:'เกี่วยกับพวกเรา',
+        slug:'FAQ'
       }
     ])
   }
