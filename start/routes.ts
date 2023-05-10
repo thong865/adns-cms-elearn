@@ -37,14 +37,16 @@ Route.group(() => {
   Route.get('/usersManage', 'UsersController.adminUserMange').as('adminUserMange')
 
   // this for blogs and content
-  Route.get('/blogsManage', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
+  Route.get('/blogs', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
+  Route.get('/blogs/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
+  Route.get('/blogs/categories', 'AdminBlogsController.adminBlogsCategory').as('adminBlogsCategories')
 
   //form to create
-  Route.get('/blogsManage/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
   Route.get('/content/:id', 'PagesController.adminBlogsDetial').as('adminContentDetail')
 
   // knowledge
   Route.get('/knowledges', 'AdminBlogsController.adminknowledges').as('adminknowledges')
+  Route.get('/knowledges/category', 'AdminBlogsController.adminknowledgesCategory').as('adminknowledgesCategory')
   Route.get('/knowledges/form', 'AdminBlogsController.adminknowledgesForm').as('adminknowledgesForm')
 
 
@@ -80,7 +82,7 @@ Route.group(() => {
     for (let image of files) {
     await image.move(Application.tmpPath('uploads'))
 
-      resFile.push({ url: `http://192.168.1.14:3333/v1/filestream?fileUrl=${image.fileName}` })
+      resFile.push({ url: `/v1/filestream?fileUrl=${image.fileName}` })
     }
     return  response.json(resFile)
   })

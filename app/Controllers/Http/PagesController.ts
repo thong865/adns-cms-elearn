@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import MContent from 'App/Models/MContent'
+import MContentCategory from 'App/Models/MContentCategory'
 import Muser from 'App/Models/Muser'
 
 export default class PagesController {
@@ -72,6 +73,7 @@ export default class PagesController {
             users: Users
         })
     }
+   
     public async adminBlogsDetial({ params, view }: HttpContextContract) {
         const contents = await MContent.query().where('id',params.id).first()
         return view.render('admin/contentInfo', {

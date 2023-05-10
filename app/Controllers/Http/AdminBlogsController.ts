@@ -13,9 +13,21 @@ export default class AdminBlogsController {
         } else {
             blogs = await MContent.query().preload('category').where('slug', 'BLOG').paginate(1, 8)
         }
-        console.log(blogs)
         return view.render('admin/blogs/index', {
             blogs,
+            search: search ? search : ''
+        })
+    }
+    public async adminBlogsCategory({request, view }: HttpContextContract) {
+        const { search, type } = request.all()
+        let categories;
+        if (search && search != '' || type && type != '') {
+            categories = await MContentCategory.query().where('slug', 'BLOG').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            categories = await MContentCategory.query().where('slug', 'BLOG').paginate(1, 8)
+        }
+        return view.render('admin/blogs/category', {
+            categories,
             search: search ? search : ''
         })
     }
@@ -23,7 +35,6 @@ export default class AdminBlogsController {
     public async adminBlogsStore({ request, session, response }: HttpContextContract) {
         try {
             const payload = await request.validate(ContentValidator)
-            console.log(payload)
             await MContent.create(payload)
             session.flash('notifySuccess', { message: 'create_success' })
             response.redirect('/admin/blogsManage')
@@ -38,15 +49,17 @@ export default class AdminBlogsController {
 
 
     public async adminBlogsForm({ request, view }: HttpContextContract) {
-        const { type,id } = request.all()
-        let blog;
-        if (type == 'edit' && id) {
-            blog = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).where('id', id).first()
+        const { typ,id } = request.all()
+        let content;
+        if (typ == 'edit' && id) {
+            content = await MContent.query().preload('category').whereIn('slug', ['BLOG']).andWhere('id', id).first()
         }
         const categories = await MContentCategory.query().where('slug', 'BLOG')
         return view.render('admin/blogs/form', {
             categories,
-            type: { method: type == 'edit' ? 'PUT' : 'POST', route: type == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
+            content,
+            type: { method: typ == 'edit' ? 'POST' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' },
+            action: typ != 'edit' ? '/v1/content/create':'/v1/content/update?_method=PUT'
         })
     }
 
@@ -82,10 +95,10 @@ export default class AdminBlogsController {
         const { typ, id } = request.all()
         let playload;
         // if(typ){
-        playload = await request.validate(SectionValidator)
+        playload = await request.validate(ContentValidator)
         // }
         const content = await MContent.query().where('id', id).update(playload)
-        response.redirect('/admin/sections')
+        response.redirect().back()
     }
 
 
@@ -93,6 +106,19 @@ export default class AdminBlogsController {
         const data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 50)
         return view.render('admin/knowledge/index', {
             data
+        })
+    }
+    public async adminknowledgesCategory({request, view }: HttpContextContract) {
+        const { search, type } = request.all()
+        let categories;
+        if (search && search != '' || type && type != '') {
+            categories = await MContentCategory.query().where('slug', 'KNWL').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            categories = await MContentCategory.query().where('slug', 'KNWL').paginate(1, 8)
+        }
+        return view.render('admin/knowledge/category', {
+            categories,
+            search: search ? search : ''
         })
     }
     public async adminknowledgesForm({ request, view }: HttpContextContract) {
