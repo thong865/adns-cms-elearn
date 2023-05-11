@@ -17,7 +17,7 @@
         <a href="{{route('ContentDetail',{id:data?.id})}}">
             <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white text-ellipsis overflow-hidden">{{data?.title}}</h5>
         </a>
-        <p class="mb-3 font-normal text-gray-700 truncate dark:text-gray-400">{{{data?.body}}}</p>
+        <p class="mb-3 font-normal text-gray-700 truncate dark:text-gray-400 overflow-hidden max-h-[400px]">{{{data?.body}}}</p>
         <a href="{{route('ContentDetail',{id:data?.id})}}" class="flex">
             Read more
             <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
