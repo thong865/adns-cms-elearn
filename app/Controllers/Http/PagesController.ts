@@ -10,7 +10,7 @@ export default class PagesController {
         const blogs = await MContent.query().where('slug', 'BLOG').paginate(1, 8)
         const knowledges = await MContent.query().where('slug', 'KNWL').paginate(1, 8)
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('status','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('welcome', {
             QAFrequency,
             Sections,
@@ -21,12 +21,12 @@ export default class PagesController {
         })
     }
     public async knowledgePage({ request, view }: HttpContextContract) {
-        const { qkey,cat } = request.all()
+        const { qkey, cat } = request.all()
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('status','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         let conents;
         if (qkey || cat) {
-            conents = await MContent.query().where('slug', 'KNWL').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id='+cat:''}`).paginate(1, 50)
+            conents = await MContent.query().where('slug', 'KNWL').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id=' + cat : ''}`).paginate(1, 50)
         } else {
             conents = await MContent.query().where('slug', 'KNWL').paginate(1, 50)
         }
@@ -41,7 +41,7 @@ export default class PagesController {
     public async faqPage({ view }: HttpContextContract) {
         const content = await MContent.query().where('slug', 'FAQ').first()
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('status','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('Faq/index', {
             content,
             otherItem,
@@ -52,7 +52,7 @@ export default class PagesController {
         const { pageId } = request.all()
         const content = await MContent.query().where('slug', 'OTH').where('id', pageId).first()
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('status','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('Other/index', {
             content,
             otherItem,
@@ -63,7 +63,7 @@ export default class PagesController {
         const { qkey } = request.all()
         let blogs;
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('status','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         if (qkey) {
             blogs = await MContent.query().where('slug', 'BLOG').andWhereRaw(`title like '%${qkey ? qkey : ''}%'`).paginate(1, 50)
         } else {
@@ -81,17 +81,17 @@ export default class PagesController {
     public async ContentDetail({ view, params, request }: HttpContextContract) {
         const blogs = await MContent.query().where('id', params.id).preload('category').first()
         const category = await MContentCategory.query().where('slug', 'KNWL')
-        const otherItem = await MContent.query().select('title','id').where('slug', 'OTH').andWhere('stat','P')
+        const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('stat', 'P')
         return view.render('content-detail', {
             blogs,
             category,
-            otherItem
+            otherItem,
         })
     }
 
     // client profile
     public async userLoginProfile({ view, auth }: HttpContextContract) {
-        
+
         await auth.use('web').authenticate()
         return view.render('profile/index')
     }
@@ -99,10 +99,10 @@ export default class PagesController {
     //adminDashboard
     public async adminDashboard({ view, auth }: HttpContextContract) {
         const userAuth = await auth.use('web').authenticate()
-        const dataUser = await Muser.query().select('id','firstname','lastname','email','mobile','role').preload('hasRole',(qr)=> {
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
             qr.preload('links')
-        }).where('id',userAuth.id).first()
-        return view.render('admin/dashboard',{
+        }).where('id', userAuth.id).first()
+        return view.render('admin/dashboard', {
             dataUser
         })
     }
@@ -114,10 +114,15 @@ export default class PagesController {
         })
     }
 
-    public async adminBlogsDetial({ params, view }: HttpContextContract) {
+    public async adminBlogsDetial({ params, auth, view }: HttpContextContract) {
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         const contents = await MContent.query().where('id', params.id).first()
         return view.render('admin/contentInfo', {
-            contents
+            contents,
+            dataUser
         })
     }
 

@@ -35,7 +35,7 @@ Route.get('/content/:id', 'PagesController.ContentDetail').as('ContentDetail').m
 
 Route.group(() => {
   Route.get('', 'PagesController.adminDashboard').as('adminDashboard')
-  Route.get('/usersManage', 'UsersController.adminUserMange').as('adminUserMange')
+  Route.get('/users', 'UsersController.adminUserMange').as('adminUserMange')
 
   // this for blogs and content
   Route.get('/blogs', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
@@ -54,6 +54,9 @@ Route.group(() => {
   // section part
   Route.get('/sections/', 'AdminBlogsController.adminSections').as('adminSection')
   Route.get('/sections/form', 'AdminBlogsController.adminSectionsForm').as('adminSectionForm')
+
+  Route.get('/other/', 'AdminBlogsController.adminOther').as('adminOther')
+  Route.get('/other/form', 'AdminBlogsController.adminOtherForm').as('adminOtherForm')
 }).prefix('admin').middleware('auth')
 
 

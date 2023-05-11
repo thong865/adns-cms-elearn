@@ -9,7 +9,22 @@
         "entries":"ທັງໝົດ",
         "category":"ໝວດໝູ່"
     },
-    "search_blog":"ค้นหาข่าวสาน",
+    "section":{
+        "title":"Sections"
+    },
+    "other":{
+        "title":"Other"
+    },
+    "buttn":{
+        "edit":"แก้ไข"
+    },
+    "admin_page_title":"หัวข้อ",
+    "createPage":"ส้รางหน้าใหม่",
+    "user_index":"ผู้ใช้งานระบบ",
+    "search_blog":"ค้นหาหัวข้อข่าวสาน",
+    "search_knowledge":"ค้นหาหัวข้อความรู้",
+    "search_users":"ค้นหาหัวข้อความรู้",
+    "search":"ค้นหา",
     "new-blog-category":"ເພີ່ມໝວດໝູ່ຂ່າວສານ",
     "search-category-title":"ค้นหาหมวดหมู่"
 }

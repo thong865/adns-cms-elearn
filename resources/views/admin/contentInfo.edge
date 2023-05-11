@@ -1,12 +1,12 @@
 @layout('layouts/auth')
 @set('title', 'Home page')
-
+@set('dataUser',dataUser.hasRole.links)
 @section('body')
 <section>
   <div class="max-w-screen-xl mx-auto">
     <div class="py-5 flex justify-between">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{contents.title}}</h5>
-      <a href="">view_more</a>
+      <a href="/admin/other/form?typ=edit&id={{contents.id}}" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{t('admin.buttn.edit')}}</a>
     </div>
     {{{contents.body}}}
   </div>

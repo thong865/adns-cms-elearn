@@ -22,7 +22,7 @@ export default class extends BaseSeeder {
         title: "หน้าหลัก",
         svg_icon: "",
         order: 1,
-        target: "_top",
+        target: "",
         slug: "/admin",
       },
       {
@@ -38,7 +38,7 @@ export default class extends BaseSeeder {
         title: "ทังหมด",
         svg_icon: "",
         order: 3,
-        slug: "/knowledge",
+        slug: "/admin/knowledges",
         target: "_sub",
         parent: 2,
       },
@@ -47,7 +47,7 @@ export default class extends BaseSeeder {
         title: "หมวดหมู่",
         svg_icon: "",
         order: 4,
-        slug: "/knowledge/category",
+        slug: "/admin/knowledges/category",
         target: "_sub",
         parent: 2,
       },
@@ -65,7 +65,7 @@ export default class extends BaseSeeder {
         svg_icon: "",
         order: 6,
         target: "_sub",
-        slug: "/blogs",
+        slug: "/admin/blogs",
         parent: 5,
       },
       {
@@ -73,9 +73,52 @@ export default class extends BaseSeeder {
         title: "หมวดหมู่",
         svg_icon: "",
         order: 7,
-        slug: "/blogs/category",
+        slug: "/admin/blogs/category",
+        target: "_sub",
+        parent: 7,
+      },
+      {
+        id: 8,
+        title: "ผู้ใช้ระบบ",
+        svg_icon: "",
+        order: 8,
+        slug: "/admin/users",
         target: "_sub",
         parent: 5,
+      },
+      {
+        id: 9,
+        title: "ผู้ใช้ละบบทังหมด",
+        svg_icon: "",
+        order:9,
+        slug: "/admin/users",
+        target: "_sub",
+        parent:8
+      },
+      {
+        id: 10,
+        title: "User Roles",
+        svg_icon: "",
+        order: 10,
+        slug: "/admin/users",
+        target: "_sub",
+        parent:8
+      },
+      {
+        id: 11,
+        title: "Section",
+        svg_icon: "",
+        order: 11,
+        slug: "/admin/sections",
+        target: ""
+      },
+      {
+        id: 12,
+        title: "Other",
+        svg_icon: "",
+        order: 12,
+        slug: "/admin/sections",
+        target: ""
       },
     ];
     const roleMaps = [
@@ -86,33 +129,59 @@ export default class extends BaseSeeder {
       },
       {
         id: 2,
-        roleId: 2,
+        roleId: 1,
         linkId: 2
       },
       {
         id: 3,
-        roleId: 3,
+        roleId: 1,
         linkId: 3
       },
       {
         id: 4,
-        roleId: 4,
+        roleId: 1,
         linkId: 4
       },
       {
         id: 5,
-        roleId: 5,
+        roleId: 1,
         linkId: 5
       },
       {
         id: 6,
-        roleId: 6,
+        roleId: 1,
         linkId: 6
       },
       {
         id: 7,
-        roleId: 7,
+        roleId: 1,
         linkId: 7
+      },
+      {
+        id: 8,
+        roleId: 1,
+        linkId: 8
+      }
+      ,
+      {
+        id: 9,
+        roleId: 1,
+        linkId: 9
+      },
+      {
+        id: 10,
+        roleId: 1,
+        linkId: 10
+      },
+      {
+        id: 11,
+        roleId: 1,
+        linkId: 11
+      },
+      {
+        id: 12,
+        roleId: 1,
+        linkId: 12
       }
     ]
     await MuserLink.updateOrCreateMany(['id'], links)

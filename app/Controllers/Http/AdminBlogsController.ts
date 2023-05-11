@@ -81,15 +81,22 @@ export default class AdminBlogsController {
 
 
     // 
-    public async adminSections({ view, auth }: HttpContextContract) {
+    public async adminSections({ request, view, auth }: HttpContextContract) {
+        const { search } = request.all()
         const userAuth = await auth.use('web').authenticate()
         const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
             qr.preload('links')
         }).where('id', userAuth.id).first()
-        const data = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).paginate(1, 50)
+        let data;
+        if (search && search != '') {
+            data = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            data = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).paginate(1, 50)
+        }
         return view.render('admin/sections/index', {
             data,
-            dataUser
+            dataUser,
+            search: search ? search : ''
         })
     }
     public async adminSectionsForm({ request, view, auth }: HttpContextContract) {
@@ -128,24 +135,31 @@ export default class AdminBlogsController {
     }
 
 
-    public async adminknowledges({ view,auth }: HttpContextContract) {
+    public async adminknowledges({ request, view, auth }: HttpContextContract) {
+        const { search } = request.all()
         const userAuth = await auth.use('web').authenticate()
-            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
-                qr.preload('links')
-            }).where('id', userAuth.id).first()
-        const data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 50)
+        let data;
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
+        if (search && search != '') {
+            data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 8)
+        }
         return view.render('admin/knowledge/index', {
             data,
-            dataUser
+            dataUser,
+            search: search ? search : ''
         })
     }
-    public async adminknowledgesCategory({ request, view,auth }: HttpContextContract) {
+    public async adminknowledgesCategory({ request, view, auth }: HttpContextContract) {
         const { search, type } = request.all()
         let categories;
         const userAuth = await auth.use('web').authenticate()
-            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
-                qr.preload('links')
-            }).where('id', userAuth.id).first()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         if (search && search != '' || type && type != '') {
             categories = await MContentCategory.query().where('slug', 'KNWL').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
         } else {
@@ -157,7 +171,7 @@ export default class AdminBlogsController {
             dataUser
         })
     }
-    public async adminknowledgesForm({ request, view,auth }: HttpContextContract) {
+    public async adminknowledgesForm({ request, view, auth }: HttpContextContract) {
         try {
             const { typ, id } = request.all()
             let content;
@@ -179,4 +193,46 @@ export default class AdminBlogsController {
 
         }
     }
+    public async adminOther({ request, view, auth }: HttpContextContract) {
+        const { search } = request.all()
+        const userAuth = await auth.use('web').authenticate()
+        let data;
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
+        if (search && search != '') {
+            data = await MContent.query().preload('category').whereIn('slug', ['OTH', 'FAQ']).andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
+        } else {
+            data = await MContent.query().preload('category').whereIn('slug', ['OTH', 'FAQ']).paginate(1, 8)
+        }
+        return view.render('admin/pages/view', {
+            data,
+            dataUser,
+            search: search ? search : ''
+        })
+    }
+    public async adminOtherForm({ request, view, auth }: HttpContextContract) {
+        try {
+            
+            const { typ, id } = request.all()
+            let content;
+            const userAuth = await auth.use('web').authenticate()
+            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+                qr.preload('links')
+            }).where('id', userAuth.id).first()
+            if (typ == 'edit' && id) {
+                content = await MContent.query().preload('category').whereIn('slug', ['OTH','FAQ']).where('id', id).first()
+            }
+            const categories = await MContentCategory.query().whereIn('slug', ['OTH'])
+            return view.render('admin/pages/form', {
+                categories,
+                content,
+                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' },
+                dataUser
+            })
+        } catch (error) {
+
+        }
+    }
+
 }
