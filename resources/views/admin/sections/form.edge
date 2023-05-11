@@ -8,6 +8,7 @@
     <form method="POST" action="{{route(type.route)}}?_method={{type.method}}">
         {{ csrfField() }}
         <input type="hidden" name="slug" value="QAFG"/>
+        <input type="hidden" name="act" value="/admin/sections"/>
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg sm:p-6 dark:bg-gray-800 dark:border-gray-700">
             <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
                 {{t('form.createBlog')}}

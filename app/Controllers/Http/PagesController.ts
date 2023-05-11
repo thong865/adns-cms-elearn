@@ -22,7 +22,7 @@ export default class PagesController {
     }
     public async knowledgePage({ request, view }: HttpContextContract) {
         const { qkey, cat } = request.all()
-        // const category = await MContentCategory.query().where('slug', 'KNWL')
+        const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         let conents;
         if (qkey || cat) {
@@ -34,7 +34,7 @@ export default class PagesController {
             conents, qkey: {
                 q: qkey ? qkey : ''
             },
-            // category,
+            category,
             otherItem
         })
     }

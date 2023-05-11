@@ -40,6 +40,7 @@ export default class MContent extends BaseModel {
     if (con.$dirty.cateId) {
       const slug = await MContentCategory.findOrFail(con.cateId)
       con.slug = slug.slug
+      con.status = 'P'
     }
   }
 }
