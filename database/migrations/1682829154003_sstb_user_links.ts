@@ -8,6 +8,10 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('title') 
       table.text('svg_icon')
+      table.string('target',50)
+      table.integer('parent')
+      table.string('slug',200)
+      table.integer('order')
     })
   }
 

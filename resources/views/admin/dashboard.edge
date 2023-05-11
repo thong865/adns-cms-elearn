@@ -1,6 +1,6 @@
 @layout('layouts/auth')
 @set('title', 'Home page')
-
+@set('dataUser',dataUser.hasRole.links)
 @section('body')
 <section>
   <div class="max-w-screen-xl mx-auto">
@@ -8,7 +8,6 @@
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Knowledge</h5>
       <a href="">view_more</a>
     </div>
-   
   </div>
 
 </section>

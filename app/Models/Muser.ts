@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, beforeSave, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasOne, beforeSave, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import MuserRole from './MuserRole'
 
 export default class Muser extends BaseModel {
   public static table = 'sstb_user'
@@ -10,6 +11,16 @@ export default class Muser extends BaseModel {
   public firstname: string
   @column()
   public lastname: string
+  @column()
+  public dob: DateTime
+  @column()
+  public village: string
+  @column()
+  public avatar: string
+  @column()
+  public role: number
+  @column()
+  public sex: string
   @column()
   public email: string
   @column()
@@ -29,4 +40,10 @@ export default class Muser extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasOne(()=> MuserRole,{
+    localKey:'role',
+    foreignKey:'id'
+  })
+  public hasRole:HasOne<typeof MuserRole>
 }

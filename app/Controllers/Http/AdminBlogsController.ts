@@ -1,13 +1,18 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import MContent from 'App/Models/MContent'
 import MContentCategory from 'App/Models/MContentCategory'
+import Muser from 'App/Models/Muser'
 import ContentValidator from 'App/Validators/ContentValidator'
 import SectionValidator from 'App/Validators/SectionValidator'
 
 export default class AdminBlogsController {
-    public async adminBlogsMange({ request, view }: HttpContextContract) {
+    public async adminBlogsMange({ request, auth, view }: HttpContextContract) {
         const { search, type } = request.all()
         let blogs;
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         if (search && search != '' || type && type != '') {
             blogs = await MContent.query().preload('category').where('slug', 'BLOG').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
         } else {
@@ -15,12 +20,17 @@ export default class AdminBlogsController {
         }
         return view.render('admin/blogs/index', {
             blogs,
-            search: search ? search : ''
+            search: search ? search : '',
+            dataUser
         })
     }
-    public async adminBlogsCategory({request, view }: HttpContextContract) {
+    public async adminBlogsCategory({ request, view, auth }: HttpContextContract) {
         const { search, type } = request.all()
         let categories;
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         if (search && search != '' || type && type != '') {
             categories = await MContentCategory.query().where('slug', 'BLOG').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
         } else {
@@ -28,7 +38,8 @@ export default class AdminBlogsController {
         }
         return view.render('admin/blogs/category', {
             categories,
-            search: search ? search : ''
+            search: search ? search : '',
+            dataUser
         })
     }
 
@@ -48,9 +59,13 @@ export default class AdminBlogsController {
 
 
 
-    public async adminBlogsForm({ request, view }: HttpContextContract) {
-        const { typ,id } = request.all()
+    public async adminBlogsForm({ request, view, auth }: HttpContextContract) {
+        const { typ, id } = request.all()
         let content;
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         if (typ == 'edit' && id) {
             content = await MContent.query().preload('category').whereIn('slug', ['BLOG']).andWhere('id', id).first()
         }
@@ -59,22 +74,32 @@ export default class AdminBlogsController {
             categories,
             content,
             type: { method: typ == 'edit' ? 'POST' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' },
-            action: typ != 'edit' ? '/v1/content/create':'/v1/content/update?_method=PUT'
+            action: typ != 'edit' ? '/v1/content/create' : '/v1/content/update?_method=PUT',
+            dataUser
         })
     }
 
 
     // 
-    public async adminSections({ view }: HttpContextContract) {
+    public async adminSections({ view, auth }: HttpContextContract) {
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+            qr.preload('links')
+        }).where('id', userAuth.id).first()
         const data = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).paginate(1, 50)
         return view.render('admin/sections/index', {
-            data
+            data,
+            dataUser
         })
     }
-    public async adminSectionsForm({ request, view }: HttpContextContract) {
+    public async adminSectionsForm({ request, view, auth }: HttpContextContract) {
         try {
             const { typ, id } = request.all()
             let content;
+            const userAuth = await auth.use('web').authenticate()
+            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+                qr.preload('links')
+            }).where('id', userAuth.id).first()
             if (typ == 'edit' && id) {
                 content = await MContent.query().preload('category').whereIn('slug', ['QAFG', 'HOME1']).where('id', id).first()
             }
@@ -82,7 +107,8 @@ export default class AdminBlogsController {
             return view.render('admin/sections/form', {
                 categories,
                 content,
-                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
+                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' },
+                dataUser
             })
         } catch (error) {
 
@@ -102,15 +128,24 @@ export default class AdminBlogsController {
     }
 
 
-    public async adminknowledges({ view }: HttpContextContract) {
+    public async adminknowledges({ view,auth }: HttpContextContract) {
+        const userAuth = await auth.use('web').authenticate()
+            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+                qr.preload('links')
+            }).where('id', userAuth.id).first()
         const data = await MContent.query().preload('category').whereIn('slug', ['KNWL']).paginate(1, 50)
         return view.render('admin/knowledge/index', {
-            data
+            data,
+            dataUser
         })
     }
-    public async adminknowledgesCategory({request, view }: HttpContextContract) {
+    public async adminknowledgesCategory({ request, view,auth }: HttpContextContract) {
         const { search, type } = request.all()
         let categories;
+        const userAuth = await auth.use('web').authenticate()
+            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+                qr.preload('links')
+            }).where('id', userAuth.id).first()
         if (search && search != '' || type && type != '') {
             categories = await MContentCategory.query().where('slug', 'KNWL').andWhereRaw(`title like '%${search ? search : ''}%'`).paginate(1, 50)
         } else {
@@ -118,13 +153,18 @@ export default class AdminBlogsController {
         }
         return view.render('admin/knowledge/category', {
             categories,
-            search: search ? search : ''
+            search: search ? search : '',
+            dataUser
         })
     }
-    public async adminknowledgesForm({ request, view }: HttpContextContract) {
+    public async adminknowledgesForm({ request, view,auth }: HttpContextContract) {
         try {
             const { typ, id } = request.all()
             let content;
+            const userAuth = await auth.use('web').authenticate()
+            const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
+                qr.preload('links')
+            }).where('id', userAuth.id).first()
             if (typ == 'edit' && id) {
                 content = await MContent.query().preload('category').whereIn('slug', ['KNWL']).where('id', id).first()
             }
@@ -132,7 +172,8 @@ export default class AdminBlogsController {
             return view.render('admin/knowledge/form', {
                 categories,
                 content,
-                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' }
+                type: { method: typ == 'edit' ? 'PUT' : 'POST', route: typ == 'edit' ? 'ContentUpdate' : 'ContentCreate' },
+                dataUser
             })
         } catch (error) {
 

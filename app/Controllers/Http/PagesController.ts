@@ -98,8 +98,13 @@ export default class PagesController {
 
     //adminDashboard
     public async adminDashboard({ view, auth }: HttpContextContract) {
-        await auth.use('web').authenticate()
-        return view.render('admin/dashboard')
+        const userAuth = await auth.use('web').authenticate()
+        const dataUser = await Muser.query().select('id','firstname','lastname','email','mobile','role').preload('hasRole',(qr)=> {
+            qr.preload('links')
+        }).where('id',userAuth.id).first()
+        return view.render('admin/dashboard',{
+            dataUser
+        })
     }
 
     public async adminBlogs({ view }: HttpContextContract) {
