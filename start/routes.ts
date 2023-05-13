@@ -41,6 +41,10 @@ Route.group(() => {
   Route.get('/blogs', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
   Route.get('/blogs/form', 'AdminBlogsController.adminBlogsForm').as('adminBlogsform')
   Route.get('/blogs/categories', 'AdminBlogsController.adminBlogsCategory').as('adminBlogsCategories')
+  Route.get('/blogs/categories/form', 'AdminBlogsController.adminBlogsCategoryForm').as('adminBlogsCategoriesForm')
+  Route.post('/blogs/categories', 'AdminBlogsController.adminBlogsCategoryCreate').as('adminBlogsCategoriesCreate')
+  Route.post('/blogs/categories/update', 'AdminBlogsController.adminBlogsCategoryUpdate').as('adminBlogsCategoriesUpdate')
+  Route.post('/blogs/categories/delete', 'AdminBlogsController.adminBlogsCategoryDelete').as('adminBlogsCategoriesDelete')
 
   //form to create
   Route.get('/content/:id', 'PagesController.adminBlogsDetial').as('adminContentDetail')
@@ -48,6 +52,10 @@ Route.group(() => {
   // knowledge
   Route.get('/knowledges', 'AdminBlogsController.adminknowledges').as('adminknowledges')
   Route.get('/knowledges/category', 'AdminBlogsController.adminknowledgesCategory').as('adminknowledgesCategory')
+  Route.post('/knowledges/category', 'AdminBlogsController.adminknowledgesCategoryCreate').as('adminknowledgesCategoryCreate')
+  Route.get('/knowledges/category/form', 'AdminBlogsController.adminknowledgesCategoryForm').as('adminknowledgesCategoryForm')
+  Route.post('/knowledges/category/update', 'AdminBlogsController.adminknowledgesCategoryUpdate').as('adminknowledgesCategoryUpdate')
+  Route.post('/knowledges/category/delete', 'AdminBlogsController.adminknowledgesCategoryDelete').as('adminknowledgesCategoryDelete')
   Route.get('/knowledges/form', 'AdminBlogsController.adminknowledgesForm').as('adminknowledgesForm')
 
 

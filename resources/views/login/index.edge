@@ -9,12 +9,12 @@
             class="flex flex-col md:flex-row lg:flex-row w-full max-w-[960px] h-auto md:max-h-[480px] lg:max-h-[480px] content-center items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
             <div class="w-screen hidden md:block md:w-[50%] bg-cover bg-[url('http://192.168.1.14:3333/images/bg/login-bg.jpg')] p-9">
                 <div class="items-center mt-4">
-                    <h1 class="text-white text-3xl">{{t('login.header_image_login')}}</h1>
-                    <p class="text-white text-xl">{{t('login.description_login')}}</p>
+                    <h1 class="text-gray-700 text-3xl">{{t('login.header_image_login')}}</h1>
+                    <p class="text-gray-700 text-xl">{{t('login.description_login')}}</p>
                 </div>
             </div>
-            <div class="md:w-[50%] px-5 sm:rounded-xl md:rounded-none py-5 space-y-8 bg-primary dark:bg-gray-800">
-                <h2 class="text-2xl font-bold text-white dark:text-white text-center">
+            <div class="md:w-[50%] px-5  py-5 space-y-8 bg-[#fff] rounded-xl">
+                <h2 class="text-2xl font-bold text-gray-800  text-center">
                     {{t('form.signin')}}
                 </h2>
                 <form class="mt-8 space-y-6" action="{{route('ClientLogin')}}" method="POST">
@@ -22,10 +22,10 @@
                     <div>
                         <div class="relative">
                             <input type="text" id="username"
-                                class="block px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-md border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-white dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
+                                class="block px-2.5 pb-3 pt-5 w-full text-sm bg-transparent rounded-md border-1 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
                                 placeholder=" " name="username" />
                             <label for="username"
-                                class="absolute bg-primary text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-gray-300 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.username')}}</label>
+                                class="absolute text-sm text-gray-500 bg-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-focus:px-2 peer-focus:text-gray-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.username')}}</label>
                         </div>
                         @if(flashMessages.get('errors.username'))
                         <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
@@ -35,17 +35,17 @@
                     <div>
                         <div class="relative">
                             <input type="password" id="password"
-                                class="block  px-2.5 pb-3 pt-5 w-full text-sm text-[#F4F6FC] bg-transparent rounded-lg border-1 border-[rgb(255,255,255,0.1)] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-white focus:outline-none focus:ring-0 focus:border-white peer"
+                                class="block px-2.5 pb-3 pt-5 w-full text-sm bg-transparent rounded-md border-1 appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 peer"
                                 placeholder=" " name="password" />
                             <label for="password"
-                                class="absolute bg-primary text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-gray-300 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.password')}}</label>
+                                class="absolute text-sm text-gray-500 bg-white duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0]  px-2 peer-focus:px-2 peer-focus:text-gray-500 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.password')}}</label>
                         </div>
                         @if(flashMessages.get('errors.password'))
                         <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
                             {{flashMessages.get('errors.password')}}</p>
                         @endif
                     </div>
-                    <div class="flex items-start">
+                    {{--  <div class="flex items-start">
                         <div class="flex items-center h-5">
                             <input id="remember" aria-describedby="remember" name="remember" type="checkbox"
                                 class="w-4 h-4 border-[#F4F6FC] rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
@@ -55,10 +55,10 @@
                         </div>
                         <a href="#" class="ml-auto text-sm text-gray-300 hover:underline dark:text-primary-500">Lost
                             Password?</a>
-                    </div>
+                    </div>  --}}
                     <button type="submit"
                         class="w-full px-5 bg-[#FCD980] py-3 text-base font-medium text-center  rounded-md border">ເຂົ້າສູ່ລະບົບ</button>
-                    <div class="text-sm text-center text-[#F4F6FC] font-medium dark:text-gray-400">
+                    <div class="text-sm text-center text-gray-600 font-medium dark:text-gray-400">
                         ທ່ານຍັງບໍ່ມີບັນຊີບໍ? <a href="{{route('registerPage')}}"
                             class=" hover:underline dark:text-primary-500">ສະໝັກສະມາຊິກ</a>
                     </div>

@@ -2,6 +2,7 @@ import type { HttpContextContract } from "@ioc:Adonis/Core/HttpContext";
 import MContent from "App/Models/MContent";
 import MContentCategory from "App/Models/MContentCategory";
 import Muser from "App/Models/Muser";
+import CategoryValidator from "App/Validators/CategoryValidator";
 import ContentValidator from "App/Validators/ContentValidator";
 import SectionValidator from "App/Validators/SectionValidator";
 
@@ -117,6 +118,80 @@ export default class AdminBlogsController {
     });
   }
 
+  public async adminBlogsCategoryForm({
+    request,
+    auth,
+    view,
+  }: HttpContextContract) {
+    const userAuth = await auth.use("web").authenticate();
+    const dataUser = await Muser.query()
+      .select("id", "firstname", "lastname", "email", "mobile", "role")
+      .preload("hasRole", (qr) => {
+        qr.preload("links");
+      })
+      .where("id", userAuth.id)
+      .first();
+    try {
+      const { typ, id } = request.all();
+      let category;
+      if (typ == 'edit' && id) {
+        category = await MContentCategory.query().where('id', id).first()
+      }
+      return view.render('admin/blogs/formCate', {
+        category: typ == 'edit' ? category : '',
+        dataUser,
+        act: typ == 'edit' ? 'edit' : ''
+      })
+      // session.flash("notifySuccess", { message: "create_success" });
+      // response.redirect(`${act}`);
+      // return payload
+    } catch (error) {
+      console.log(error);
+      // return response.status(200).json(error)
+    }
+  }
+  public async adminBlogsCategoryCreate({
+    request,
+    response,
+  }: HttpContextContract) {
+    try {
+      const playload = await request.validate(CategoryValidator)
+      await MContentCategory.create(playload)
+      response.redirect('/admin/blogs/categories')
+    } catch (error) {
+      response.redirect().back()
+      // return response.status(200).json(error)
+    }
+  }
+  public async adminBlogsCategoryUpdate({
+    request,
+    response,
+  }: HttpContextContract) {
+    const { id } = request.all();
+    try {
+      const playload = await request.validate(CategoryValidator)
+      await MContentCategory.query().where('id', id).update(playload)
+      response.redirect('/admin/blogs/categories')
+    } catch (error) {
+      response.redirect().back()
+      // return response.status(200).json(error)
+    }
+  }
+  public async adminBlogsCategoryDelete({
+    request,
+    response,
+  }: HttpContextContract) {
+    const { id } = request.all();
+    try {
+      await MContentCategory.query().where('id', id).delete()
+      response.redirect('/admin/blogs/categories')
+    } catch (error) {
+      response.redirect().back()
+      // return response.status(200).json(error)
+    }
+  }
+
+
   //
   public async adminSections({ request, view, auth }: HttpContextContract) {
     const { search } = request.all();
@@ -179,7 +254,7 @@ export default class AdminBlogsController {
         },
         dataUser,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 
   public async ContentUpdate({ request, response }: HttpContextContract) {
@@ -252,6 +327,52 @@ export default class AdminBlogsController {
       dataUser,
     });
   }
+  public async adminknowledgesCategoryForm({ request, auth, view }: HttpContextContract) {
+    const { typ, id } = request.all()
+    const userAuth = await auth.use("web").authenticate();
+    let category;
+    const dataUser = await Muser.query()
+      .select("id", "firstname", "lastname", "email", "mobile", "role")
+      .preload("hasRole", (qr) => {
+        qr.preload("links");
+      })
+      .where("id", userAuth.id)
+      .first();
+    if (typ == "edit" && id) {
+      category = await MContentCategory.query().where('id', id).first()
+    }
+    return view.render('admin/knowledge/formCate', { dataUser, category: typ == 'edit' ? category : '', act: typ == 'edit' ? 'edit' : '' })
+
+  }
+  public async adminknowledgesCategoryCreate({ request, response }: HttpContextContract) {
+    const payload = await request.validate(CategoryValidator)
+    try {
+      await MContentCategory.create(payload)
+      response.redirect('/admin/knowledges/category')
+    } catch (error) {
+      response.redirect().back()
+    }
+  }
+  public async adminknowledgesCategoryUpdate({ request, response }: HttpContextContract) {
+    const { id } = request.all()
+    const payload = await request.validate(CategoryValidator)
+    try {
+      await MContentCategory.query().where('id', id).update(payload)
+      response.redirect('/admin/knowledges/category')
+    } catch (error) {
+      response.redirect().back()
+    }
+  }
+  public async adminknowledgesCategoryDelete({ request, response }: HttpContextContract) {
+    const { id } = request.all()
+    try {
+      await MContentCategory.query().where('id', id).delete()
+      response.redirect('/admin/knowledges/category')
+    } catch (error) {
+      response.redirect().back()
+    }
+  }
+
   public async adminknowledgesForm({
     request,
     view,
@@ -287,7 +408,7 @@ export default class AdminBlogsController {
         },
         dataUser,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
   public async adminOther({ request, view, auth }: HttpContextContract) {
     const { search } = request.all();
@@ -349,6 +470,6 @@ export default class AdminBlogsController {
         },
         dataUser,
       });
-    } catch (error) {}
+    } catch (error) { }
   }
 }
