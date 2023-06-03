@@ -386,7 +386,7 @@ export default class AdminBlogsController {
   }
 
   public async adminknowledges({ request, view, auth }: HttpContextContract) {
-    const { search } = request.all();
+    const { search,page } = request.all();
     const userAuth = await auth.use("web").authenticate();
     let data;
     const dataUser = await Muser.query()
@@ -404,7 +404,7 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .andWhereRaw(`title like '%${search ? search : ""}%'`)
-        .paginate(1, 50);
+        .paginate(page || 1, 50);
     } else {
       data = await MContent.query()
         .preload("category")
@@ -412,7 +412,7 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .whereIn("slug", ["KNWL"])
-        .paginate(1, 8);
+        .paginate(page || 1, 8);
     }
     return view.render("admin/knowledge/index", {
       data,
