@@ -5,9 +5,9 @@
 <section>
   <div class="max-w-screen-md mx-auto">
     <div class="py-5 flex justify-between">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{contents.title}}</h5>
-      <a href="{{contents?.slug == 'BLOG' ? '/admin/blogs/form?typ=edit&id=' :''}}{{contents?.slug == 'KNWL' ? '/admin/knowledges/form?typ=edit&id=' :''}}{{contents?.id || ''}}"
-        class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{t('admin.button.edit')}}</a>
+      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white z-10">{{contents.title}}</h5>
+      <a href="{{contents?.slug == 'BLOG' ? '/admin/blogs/form?typ=edit&id=' :''}}{{contents?.slug == 'KNWL' ? '/admin/knowledges/form?typ=edit&id=' :''}}{{content?.slug != 'KNWL' || content?.slug != 'BLOG' ? '/admin/other/form?typ=edit&id=' : ''}}{{contents?.id || ''}}"
+        class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 z-10">{{t('admin.button.edit')}}</a>
     </div>
     <div class=""><img class="w-full max-h-[320px] rounded-xl" src="{{contents?.background}}" alt="{{contents?.title}}" /></div>
     <div class="mt-4">{{{contents.body}}}</div>
