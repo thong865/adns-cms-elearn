@@ -40,5 +40,7 @@ export default class CategoryValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'title.required': 'form.enter_required',
+  }
 }

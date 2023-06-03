@@ -43,31 +43,17 @@
                     <th scope="col" class="px-6 py-3">
                         {{t('thead.title')}}
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        {{t('thead.status')}}
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
                 </tr>
             </thead>
             <tbody>
                 @each(ut in categories)
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                    <td class="px-6 py-4 flex justify-between gap-2">
                         <div class="pl-3">
                             <a href="{{route('adminContentDetail',{params:{id:ut.id}})}}"
                                 class="text-base font-semibold">{{ut.title}}</a>
                         </div>
-                    </th>
-                    <td class="px-6 py-4">
-                        <div class="flex items-center">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 flex justify-between gap-2">
-                        <div></div>
                         <div>
                             <a href="{{route('adminBlogsCategoriesForm',{qs:{typ:'edit',id:ut.id}})}}"
                                 class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-gray-200 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">

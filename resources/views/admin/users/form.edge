@@ -1,0 +1,244 @@
+@layout('layouts/auth')
+@set('title', 'create knowledge')
+@set('dataUser',dataUser.hasRole.links)
+@section('styles')
+@end
+@section('body')
+<section class="mt-6">
+    <div class="max-w-[800px]">
+        <h2 class="text-2xl font-bold text-gray-800">
+        @if(typ)
+        {{t('form.update_newuser')}}
+        @else
+        {{t('form.create_newuser')}}
+        @endif
+        </h2>
+        <form class="mt-8 space-y-6" action="{{route( typ == 'edit' ? 'UdpateUser':'userCreation',{params:{id:user.id}})}}{{typ=='edit'?'?_method=PUT':''}}" method="POST">
+            {{ csrfField() }}
+            <input type="hidden" id="iBackground" name="avatar" value="{{user.avatar || ''}}"/>
+            <div id="showbackground">
+                @if(user?.avatar)
+                <div class="relative max-w-[200px]">
+                    <img src='{{user?.avatar || ''}}' class='rounded-3xl w-full max-h-[120px]' />
+                    <button type="button" onclick="removeBackground()" class="text-white absolute right-0 top-0 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                @endif
+            </div>
+            <label for="dropzone-file" id="forDropFile"
+                class="flex flex-col items-center {{user?.avatar == null  ? 'block':'hidden'}} justify-center w-64 h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                        </path>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                            class="font-semibold">{{{t('admin.avatar_upload')}}}</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF</p>
+
+                </div>
+                <input id="dropzone-file" type="file" onchange="BackgroundUpload(event)" id="backgroundimage"
+                    class="hidden" accept="image/png, image/gif, image/jpeg" />
+            </label>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <div class="relative">
+                        <input type="text" id="lfirstname"
+                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm bg-transparent rounded-lg border-1 border-gray-300 appearance-none text-gray-800 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="firstname" value="{{user?.firstname || ''}}" />
+                        <label for="lfirstname"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.firstname')}}</label>
+                    </div>
+                    @if(flashMessages.get('errors.messages.firstname'))
+                    <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                        {{t(flashMessages.get('errors.messages.firstname'))}}</p>
+                    @endif
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="text" id="llastname"
+                            class="block text-gray-800 px-2.5 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="lastname" value="{{user?.lastname || ''}}" />
+                        <label for="llastname"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.lastname')}}</label>
+                    </div>
+                    @if(flashMessages.get('errors.messages.lastname'))
+                    <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                        {{t(flashMessages.get('errors.messages.lastname'))}}</p>
+                    @endif
+                </div>
+            </div>
+            <div>
+                <div class="relative">
+                    <input type="email" id="lemail" value="{{user?.email || ''}}"
+                        class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" " name="email" />
+                    <label for="lemail"
+                        class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.email')}}</label>
+                </div>
+                @if(flashMessages.get('errors.messages.email'))
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                    {{t(flashMessages.get('errors.messages.email'))}}</p>
+                @endif
+            </div>
+            <div>
+                <div class="relative">
+                    <input type="text" id="lmobile"
+                        class="block px-2.5 text-gray-800 pb-2.5  pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" " name="mobile" value="{{user?.mobile || ''}}" />
+                    <label for="lmobile"
+                        class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.mobile')}}</label>
+                </div>
+                @if(flashMessages.get('errors.messages.mobile'))
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                    {{t(flashMessages.get('errors.messages.mobile'))}}</p>
+                @endif
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <div class="relative">
+                        <input type="date" id="ldob" value="{{user?.dob || ''}}"
+                            class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="dob" />
+                        <label for="ldob"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.dob')}}</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <select
+                            class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="sex">
+                            <option value="M" {{user?.sex == 'M' ? 'selected':''}}>{{t('form.sex_male')}}</option>
+                            <option value="F" {{user?.sex == 'F' ? 'selected':''}}>{{t('form.sex_female')}}</option>
+                        </select>
+                        <label for="ldob"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.sex')}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <div class="relative">
+                        <input type="text" id="lprovince"
+                            class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="province" value="{{user?.province || ''}}" />
+                        <label for="lprovince"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.province')}}</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="text" id="ldistrict" value="{{user?.district || ''}}"
+                            class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="district" />
+                        <label for="ldistrict"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.district')}}</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative">
+                        <input type="text" id="lvillage"
+                            class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " name="village" value="{{user?.village || ''}}" />
+                        <label for="lvillage"
+                            class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.village')}}</label>
+                    </div>
+                </div>
+            </div>
+            @if(!typ)
+            <div>
+                <div class="relative">
+                    <input type="password" id="lpassword"
+                        class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" " name="password" />
+                    <label for="lpassword"
+                        class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.password')}}</label>
+                </div>
+                @if(flashMessages.get('errors.messages.password'))
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                    {{t(flashMessages.get('errors.messages.password'))}}</p>
+                @endif
+            </div>
+            <div>
+                <div class="relative">
+                    <input type="password" id="lcpassword"
+                        class="block px-2.5 text-gray-800 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" " name="cpassword" />
+                    <label for="lcpassword"
+                        class="absolute text-sm text-gray-800 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.cpassword')}}</label>
+                </div>
+                @if(flashMessages.get('errors.messages.cpassword'))
+                <p id="outlined_error_help" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                    {{t(flashMessages.get('errors.messages.cpassword'))}}</p>
+                @endif
+            </div>
+            @endif
+            <div>
+                <label for="countries_disabled"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('admin.form.category')}}</label>
+                <select id="countries_disabled" name="role"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @each(ci in useRole)
+                    @if(user?.role == ci.id)
+                    <option value="{{ci.id}}" selected>{{ci.title}}</option>
+                    @else
+                    <option value="{{ci.id}}">{{ci.title}}</option>
+                    @endif
+                    @endeach
+                </select>
+            </div>
+            <div>
+                <button type="submit"
+                    class="w-full focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900">{{t('admin.button.save')}}</button>
+
+        </form>
+    </div>
+</section>
+@end
+@section('scripts')
+<script>
+    function BackgroundUpload(event) {
+        const file = event.target.files[0];
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', `/v1/fileuploadCk?_csrf=${document.getElementsByName('_csrf')[0].value}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let dt = JSON.parse(xhr.response)
+                document.getElementById('iBackground').setAttribute('value', dt[0].file_path)
+                document.getElementById('showbackground').innerHTML = `<div class="relative">
+                                <img src='${dt[0].file_path}' class='rounded-3xl w-full max-h-[120px]' />
+                                <button type="button" onclick="removeBackground()" class="text-white absolute right-0 top-0 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                                </div>`
+                document.getElementById('forDropFile').classList.add('hidden')
+            } else {
+                console.log('Error uploading image');
+            }
+        };
+        xhr.send(formData);
+    }
+    function removeBackground() {
+        let el = document.getElementById('showbackground')
+        el.innerHTML = ''
+        document.getElementById('forDropFile').classList.replace('hidden', 'block')
+    }
+</script>
+@end

@@ -1,0 +1,235 @@
+@layout('layouts/guest')
+@set('title', 'create knowledge')
+@set('dataUser',dataUser.hasRole.links)
+@section('styles')
+@end
+@section('body')
+<section class="mt-6">
+    <form method="POST" method="{{type.method}}" action="{{action}}">
+        {{ csrfField() }}
+        <input type="hidden" name="slug" value="KNWL" />
+        <input type="hidden" name="act" value="/myprf/knowledges" />
+        <input type="hidden" name="id" value="{{content?.id || ''}}" />
+        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+            <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+                {{t('form.createBlog')}}
+            </h5>
+            <div class="flex gap-3">
+                <div class="flex-1">
+                    <div class="relative z-0">
+                        <input type="text" id="small_standard"
+                            class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder="" name="title" value="{{content?.title || ''}}" />
+                        <label for="small_standard"
+                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('admin.form.title')}}</label>
+                    </div>
+                    @if(flashMessages.get('errors.messages.title'))
+                    <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
+                        {{t(flashMessages.get('errors.messages.title'))}}</p>
+                    @endif
+                    <div>
+                        <label for="countries_disabled"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('admin.form.category')}}</label>
+                        <select id="countries_disabled" name="cateId"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @each(ci in categories)
+                            <option value="{{ci.id}}">{{ci.title}}</option>
+                            @endeach
+                        </select>
+                    </div>
+
+                    <h1 class="py-5">{{t('admin.form.content')}}</h1>
+                    <textarea id="editor1" name="body">{{content?.body || ''}}</textarea>
+                    @if(flashMessages.get('errors.messages.body'))
+                    <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
+                        {{t(flashMessages.get('errors.messages.body'))}}</p>
+                    @endif
+                    <div class="mt-5">
+                        <div class="grid grid-cols-1 mb-10" id="docFileList">
+                            @each((t,i) in content?.files)
+                            <div id="attfile{{i}}"
+                                class="inline-flex items-center justify-between px-1 py-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <span class="text-xs bg-blue-600 rounded-full text-white px-3 py-1.5 mr-3"><svg
+                                        aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg></span> <span class="text-sm font-medium">{{t.file_path}}
+                                </span>
+                                <input type='hidden' name='docfile[{{i}}]' value='{{t.file_path}}' />
+                                <button type="button" onclick="removeFile({{'attfile'+i}})"
+                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            @endeach
+                        </div>
+                        <input class="hidden" type="file" id="DocUpload" accept="application/pdf"
+                            onchange="fileUpload(event)" />
+                        <label for="DocUpload"
+                            class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">{{t('admin.file_upload')}}</label>
+                    </div>
+                </div>
+                <div class="w-[400px]">
+                    <div>
+                        <input type="hidden" id="iBackground" name="background" value="{{content?.background || ''}}" />
+                        <h1>{{t('admin.form.background')}}</h1>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="dropzone-file" id="forDropFile"
+                                class="flex flex-col {{content && content?.background != ''  ? 'hidden':'block'}} items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                        </path>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                            class="font-semibold">{{{t('admin.background_upload')}}}</span></p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF</p>
+
+                                </div>
+                                <input id="dropzone-file" type="file" onchange="BackgroundUpload(event)"
+                                    id="backgroundimage" class="hidden" accept="image/png, image/gif, image/jpeg" />
+                            </label>
+                            <div id="showbackground" class="w-full">
+                                @if(content?.background)
+                                <div class="relative">
+                                    <img src='{{content.background}}' class='rounded-3xl w-full max-h-[120px]' />
+                                    <button type="button" onclick="removeBackground()"
+                                        class="text-white absolute right-0 top-0 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                        @if(flashMessages.get('errors.messages.background'))
+                        <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
+                            {{t(flashMessages.get('errors.messages.background'))}}</p>
+                        @endif
+                        <h1 class="mt-3">{{t('admin.status')}}</h1>
+                        <div class="flex items-center mb-4 mt-4">
+                            <input id="disabled-radio-1" type="radio" value="P" name="status" {{content?.status=='P'
+                                ?'checked':'' || 'checked' }}
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="disabled-radio-1"
+                                class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500">{{t('admin.status_public')}}</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input id="disabled-radio-2" type="radio" value="U" name="status" {{content?.status=='U'
+                                ?'checked':''}}
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="disabled-radio-2"
+                                class="ml-2 text-sm font-medium text-gray-400 dark:text-gray-500">{{t('admin.status_unpublic')}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <div></div>
+                <button type="submit"
+                    class="mt-5 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">{{t('form.save')}}</button>
+            </div>
+        </div>
+    </form>
+</section>
+@end
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
+<script>
+    let fileIndex = {{ content?.files?.length || 0}};
+    ClassicEditor
+        .create(document.querySelector('#editor1'), {
+            mediaEmbed: {
+                previewsInData: true
+            },
+            ckfinder: {
+                uploadUrl: `/v1/uploadCk?_csrf=${document.getElementsByName('_csrf')[0].value}`
+            },
+        })
+        .then(editor => {
+            console.log('Editor was initialized', editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    function BackgroundUpload(event) {
+        const file = event.target.files[0];
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', `/v1/fileuploadCk?_csrf=${document.getElementsByName('_csrf')[0].value}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let dt = JSON.parse(xhr.response)
+                document.getElementById('iBackground').setAttribute('value', dt[0].file_path)
+                document.getElementById('showbackground').innerHTML = `<div class="relative">
+                                <img src='${dt[0].file_path}' class='rounded-3xl w-full max-h-[120px]' />
+                                <button type="button" onclick="removeBackground()" class="text-white absolute right-0 top-0 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                                </div>`
+                document.getElementById('forDropFile').classList.add('hidden')
+            } else {
+                console.log('Error uploading image');
+            }
+        };
+        xhr.send(formData);
+    }
+    function fileUpload(event) {
+        const file = event.target.files[0];
+        var formData = new FormData();
+        formData.append('upload', file);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', `/v1/fileuploadCk?_csrf=${document.getElementsByName('_csrf')[0].value}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let dt = JSON.parse(xhr.response)
+                document.getElementById('docFileList').innerHTML += `<div id='attfile${fileIndex}' class="inline-flex items-center justify-between px-1 py-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700">
+                            <span class="text-xs bg-blue-600 rounded-full text-white px-3 py-1.5 mr-3"><svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></span> <span class="text-sm font-medium">${dt[0].file_type}</span>
+                            <input type='hidden' name='docfile[${fileIndex}]' value=${dt[0].file_path}/>
+                            <button type="button" onclick="removeFile(attfile${fileIndex})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                            </button>
+                            </div>`
+            } else {
+                console.log('Error uploading image');
+            }
+        };
+        xhr.send(formData);
+    }
+    function removeBackground() {
+        let el = document.getElementById('showbackground')
+        el.innerHTML = ''
+        document.getElementById('forDropFile').classList.replace('hidden', 'block')
+    }
+
+    function removeFile(val) {
+        val.remove()
+    }
+</script>
+@end

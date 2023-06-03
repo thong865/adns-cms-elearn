@@ -2,23 +2,24 @@
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
         <div class="flex flex-col justify-center">
             <h1
-                class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                Apakah kursus ini benar-benar gratis?</h1>
-            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Here at Flowbite we focus on
-                markets where technology, innovation, and capital can unlock long-term value and drive economic growth.
-            </p>
+                class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{t('home.question-ask-title')}}</h1>
+            <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{t('home.question-ask-description')}}</p>
         </div>
         <div>
             <div id="accordion-flush" data-accordion="collapse"
                 data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
                 data-inactive-classes="text-gray-500 dark:text-gray-400">
                 @each((t,index) in data)
-                <h2 id="accordion-flush-heading-{{index}}">
+                <div id="accordion-flush-heading-{{index}}">
+                    
                     <button type="button"
                         class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400"
                         data-accordion-target="#accordion-flush-body-{{index}}" aria-expanded="true"
                         aria-controls="accordion-flush-body-1">
-                        <span>{{t.title}}</span>
+                        <div class="w-[50px]">
+                            <h1 class="text-2xl text-center text-blue-400">{{String(index+1).padStart(2, '0')}}</h1>
+                        </div>
+                        <span class="flex-1">{{t.title}}</span>
                         <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor"
                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -26,10 +27,10 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                </h2>
+                </div>
                 <div id="accordion-flush-body-{{index}}" class="hidden" aria-labelledby="accordion-flush-heading-1">
                     <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">{{{t.body}}}</p>
+                        <p class="mb-2 text-gray-500 dark:text-gray-400 pl-10">{{{t.body}}}</p>
                     </div>
                 </div>
                 @endeach

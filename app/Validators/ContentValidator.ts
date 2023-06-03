@@ -27,8 +27,9 @@ export default class ContentValidator {
     title: schema.string(),
     body: schema.string(),
     cateId: schema.number(),
-    background:schema.string.nullableAndOptional(),
-    slug: schema.string()
+    background:schema.string(),
+    slug: schema.string(),
+    status:schema.string()
   })
 
   /**
@@ -42,5 +43,11 @@ export default class ContentValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'title.required': 'form.enter_required',
+    'body.required': 'form.enter_required',
+    'cateId.required': 'form.enter_required',
+    'background.required': 'form.enter_required',
+    'slug.required': 'form.enter_required',
+  }
 }

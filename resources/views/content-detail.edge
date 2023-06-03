@@ -1,19 +1,108 @@
 @layout('layouts/main')
-@set('title', 'Home page')
-
+@set('title', blogs?.title)
+@set('categoriesNavbar',category)
 @section('body')
 <section>
     <div class="max-w-screen-xl mx-auto px-5 pb-10">
         @!component('components/Bredcrum')
         <div class="mt-5">
-            <span id="badge-dismiss-default" class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
+            <span id="badge-dismiss-default"
+                class="inline-flex items-center px-2 py-1 mr-2 text-sm font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
                 #{{blogs?.category.title}}
-              </span>
-            <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">{{blogs?.title}}</h1>
+            </span>
+            <h1 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white py-3">{{blogs?.title}}</h1>
         </div>
-        <img src="{{blogs.background}}" class="w-full max-h-[220px] md:max-h-[400px] rounded-xl"/>
-        <div class="mt-5">{{{blogs.body}}}</div>
+        <img src="{{blogs.background}}" class="w-full max-h-[220px] md:max-h-[400px] rounded-xl" />
+        <div class="flex items-center space-x-4 mt-3 mb-3">
+            <img class="w-10 h-10 rounded-full" src="{{blogs?.owner?.avatar || '/images/user.png'}}" alt="">
+            <div class="font-medium dark:text-white">
+                <div>{{blogs?.owner?.firstname}}</div>
+            </div>
+        </div>
+        <div class="mt-5 max-w-9/12 mx-auto">{{{blogs.body}}}</div>
+        <h1 class="mt-3 py-4">Reference Files</h1>
+            
+        {{--  {{{blogs?.files}}}  --}}
+        @each((fi,i) in blogs?.files)
+            <embed policy="SAMEORIGIN" src="{{fi.file_path}}&embedded=true"
+            type="application/pdf" frameBorder="0" scrolling="auto" class="h-screen" width="100%"/>
+        @endeach
+        <div class=" max-w-screen-sm mt-10">
+            <h3 class="mb-4 text-lg font-semibold text-gray-900">{{t('blog.comment_title')}}</h3>
+            @if(auth.isLoggedIn)
+            <form method="POST" action="{{route('ContentComment')}}">
+                {{csrfField()}}
+                <input type="hidden" name="contentId" value="{{blogs.id}}" />
+                <label for="message"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('blog.comment_message')}}</label>
+                <textarea id="message" rows="4"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="{{t('blog.comment_placeholder')}}" name="message"></textarea>
+                <div class="flex justify-between">
+                    <div></div>
+                    <button type="submit"
+                        class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{t('blog.button_send')}}</button>
+                </div>
+            </form>
+            <div class="space-y-4 mt-5">
+                @each(ct in comments.filter((t) => (t.parent == null || t.parent == '')))
+                <div class="flex">
+                    <div class="flex-shrink-0 mr-3">
+                     @if(ct.user?.avatar != null || ct.user?.avatar !='')
+                            <img class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="{{ct.user?.avatar}}" alt="user photo">
+                        @else
+                            <img class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="/images/user.png" alt="user photo">
+                        @endif
+                    </div>
+                    <div class="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                        <strong>{{ct.user.firstname}}</strong> <span
+                            class="text-xs text-gray-400">{{ct.createdAt}}</span>
+                        <p class="text-sm">
+                            {{{ct.message}}}
+                        </p>
+
+                        <h4 class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">Replies</h4>
+                        <form method="POST" action="{{route('ContentCommentReplie')}}">
+                            {{csrfField()}}
+                            <input type="hidden" name="contentId" value="{{blogs.id}}" />
+                            <input type="hidden" name="parent" value="{{ct.id}}" />
+                            <textarea id="message" rows="4"
+                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="{{t('blog.comment_placeholder')}}" name="message"></textarea>
+                            <div class="flex justify-between">
+                                <div></div>
+                                <button type="submit"
+                                    class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{t('blog.button_send')}}</button>
+                            </div>
+                        </form>
+                        <div class="space-y-4">
+                            @each(sct in comments.filter((t) => t.parent == ct.id))
+                            <div class="flex">
+                                <div class="flex-shrink-0 mr-3">
+                                    <img class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8"
+                                        src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80"
+                                        alt="">
+                                </div>
+                                <div class="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                                    <strong>{{sct.user.firstname}}</strong> <span
+                                        class="text-xs text-gray-400">{{ct.createdAt}}</span>
+                                    <p class="text-xs sm:text-sm">
+                                        {{{sct.message}}}
+                                    </p>
+                                </div>
+                            </div>
+                            @endeach
+                        </div>
+                    </div>
+                </div>
+                @endeach
+            </div>
+            @else
+            <a href="/login"
+                class="text-white mt-3 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{t('blog.please_login')}}</a>
+            @endif
+        </div>
     </div>
-    
+
 </section>
 @end

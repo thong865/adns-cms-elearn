@@ -33,9 +33,15 @@ Route.get('/other', 'PagesController.otherPage').as('otherPage').middleware(['sl
 Route.get('/knowledge', 'PagesController.knowledgePage').as('knowledgePage').middleware(['slient'])
 Route.get('/content/:id', 'PagesController.ContentDetail').as('ContentDetail').middleware(['slient'])
 
+
+
+Route.post('/content/comment', 'AuthController.userComment').as('ContentComment').middleware(['auth'])
+Route.post('/content/comment/replie', 'AuthController.ContentCommentReplie').as('ContentCommentReplie').middleware(['auth'])
 Route.group(() => {
   Route.get('', 'PagesController.adminDashboard').as('adminDashboard')
   Route.get('/users', 'UsersController.adminUserMange').as('adminUserMange')
+  Route.get('/users/frm', 'UsersController.adminUserForm').as('adminUserForm')
+  Route.get('/users/password/:id', 'UsersController.adminUserFormResetPassword').as('adminUserFormResetPassword')
 
   // this for blogs and content
   Route.get('/blogs', 'AdminBlogsController.adminBlogsMange').as('adminBlogsMange')
@@ -65,17 +71,32 @@ Route.group(() => {
 
   Route.get('/other/', 'AdminBlogsController.adminOther').as('adminOther')
   Route.get('/other/form', 'AdminBlogsController.adminOtherForm').as('adminOtherForm')
+
+   // section part
+   Route.get('/carousel/', 'AdminBlogsController.adminCarousel').as('adminCarousel')
+   Route.get('/carousel/form', 'AdminBlogsController.adminCarouselForm').as('adminCarouselForm')
+  
 }).prefix('admin').middleware('auth')
 
 
 Route.group(() => {
   Route.get('/', 'PagesController.userLoginProfile').as('userProfilePage')
+  Route.get('/blogs', 'AdminBlogsController.clientBlogsMange').as('myblogPage')
+  Route.get('/blogs/frm', 'AdminBlogsController.clientBlogsForm').as('myblogFormPage')
+  Route.get('/knowledges', 'AdminBlogsController.clientknowledges').as('myKnowledgePage')
+  Route.get('/knowledges/frm', 'AdminBlogsController.clientknowledgesForm').as('myKnowledgeFormPage')
+  Route.get('/account', 'AuthController.myAccount').as('userProfileAccount')
+  Route.put('account', 'AuthController.UpdateProfile').as('UpdateProfile')
 }).prefix('myprf').middleware(['auth'])
 
 
 
 Route.group(() => {
   Route.post('register', 'AuthController.storeRegister').as('ClientRegister')
+  Route.post('users/create', 'AuthController.storeUser').as('userCreation')
+  Route.delete('users/:id', 'AuthController.userDelete').as('userDelete')
+  Route.put('users/:id', 'AuthController.UdpateUser').as('UdpateUser')
+  Route.put('rset-password/users', 'UsersController.adminUserReset').as('adminResetPassword')
   Route.post('signin', 'AuthController.UserLogin').as('ClientLogin')
   Route.post('logout', 'AuthController.userLogout').as('ClientLogout')
 
@@ -93,8 +114,7 @@ Route.group(() => {
 
     for (let image of files) {
     await image.move(Application.tmpPath('uploads'))
-
-      resFile.push({ url: `/v1/filestream?fileUrl=${image.fileName}` })
+      resFile.push({ file_path: `/v1/filestream?fileUrl=${image.fileName}`,file_type:image.extname+'|'+image.fileName})
     }
     return  response.json(resFile)
   })
@@ -103,7 +123,11 @@ Route.group(() => {
     const filePath = Application.tmpPath(`uploads/${fileUrl}`)
     response.download(filePath, true)
   })
+
+  Route.post('uploadCk', async ({ request, response }) => {
+    const files = request.files('upload')
+    await files[0].move(Application.tmpPath('uploads'))
+    return { uploaded: true, url: `/v1/filestream?fileUrl=${files[0].fileName}` }
+  })
 }).prefix('v1')
-
-
 

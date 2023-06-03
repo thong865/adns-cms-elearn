@@ -6,7 +6,8 @@
 @end
 @section('body')
 <section class="mt-6">
-    <div class="relative overflow-x-auto shadow sm:rounded-lg">
+{{csrfField()}}
+    <div class="relative overflow-x-auto shadow sm:rounded-lg ">
         <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900">
             <div>
                 {{t('admin.user_index')}}
@@ -25,17 +26,20 @@
                     class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search for users">
             </div>
+            <a href="{{route('adminUserForm',{query:{type:create}})}}"
+                    class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    {{t('form.createNew')}}
+            </a>
         </div>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-all-search" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                        </div>
-                    </th>
                     <th scope="col" class="px-6 py-3">
                         {{t('uthead.fullname')}}
                     </th>
@@ -54,15 +58,8 @@
                 @each(ut in users)
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="w-4 p-4">
-                        <div class="flex items-center">
-                            <input id="checkbox-table-search-1" type="checkbox"
-                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                        </div>
-                    </td>
                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                        <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg"
+                        <img class="w-10 h-10 rounded-full" src="{{ut?.avatar}}"
                             alt="Jese image">
                         <div class="pl-3">
                             <div class="text-base font-semibold">{{ut.firstname}} {{ut.lastname}}</div>
@@ -70,15 +67,29 @@
                         </div>
                     </th>
                     <td class="px-6 py-4">
-                        React Developer
+                        {{ut.hasRole.title}}
                     </td>
                     <td class="px-6 py-4">
+                    @if(ut.status == 'O')
                         <div class="flex items-center">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {{t('thead.open')}}
                         </div>
+                    @elseif(ut.status == 'C')
+                        <div class="flex items-center">
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {{t('thead.closed')}}
+                        </div>
+                    @endif
                     </td>
                     <td class="px-6 py-4 flex gap-2">
-                        <a
+                        {{--  <a href="{{route('adminUserFormResetPassword',{params:{id:ut.id}})}}"
+                            class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-gray-200 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-4 h-4" viewBox="0 0 48 48">
+                                <path
+                                    d="M 36 5.0097656 C 34.205301 5.0097656 32.410791 5.6901377 31.050781 7.0507812 L 8.9160156 29.183594 C 8.4960384 29.603571 8.1884588 30.12585 8.0253906 30.699219 L 5.0585938 41.087891 A 1.50015 1.50015 0 0 0 6.9121094 42.941406 L 17.302734 39.974609 A 1.50015 1.50015 0 0 0 17.304688 39.972656 C 17.874212 39.808939 18.39521 39.50518 18.816406 39.083984 L 40.949219 16.949219 C 43.670344 14.228094 43.670344 9.7719064 40.949219 7.0507812 C 39.589209 5.6901377 37.794699 5.0097656 36 5.0097656 z M 36 7.9921875 C 37.020801 7.9921875 38.040182 8.3855186 38.826172 9.171875 A 1.50015 1.50015 0 0 0 38.828125 9.171875 C 40.403 10.74675 40.403 13.25325 38.828125 14.828125 L 36.888672 16.767578 L 31.232422 11.111328 L 33.171875 9.171875 C 33.957865 8.3855186 34.979199 7.9921875 36 7.9921875 z M 29.111328 13.232422 L 34.767578 18.888672 L 16.693359 36.962891 C 16.634729 37.021121 16.560472 37.065723 16.476562 37.089844 L 8.6835938 39.316406 L 10.910156 31.521484 A 1.50015 1.50015 0 0 0 10.910156 31.519531 C 10.933086 31.438901 10.975086 31.366709 11.037109 31.304688 L 29.111328 13.232422 z">
+                                </path>
+                            </svg>
+                        </a>  --}}
+                         <a href="{{route('adminUserForm',{qs:{typ:'edit',id:ut.id}})}}"
                             class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-gray-200 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-4 h-4" viewBox="0 0 48 48">
                                 <path
@@ -86,7 +97,7 @@
                                 </path>
                             </svg>
                         </a>
-                        <button type="button"
+                        <button type="button" onclick="removeConfirm({{ut.id}})"
                             class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -102,4 +113,46 @@
         </table>
     </div>
 </section>
+@end
+@section('scripts')
+<script>
+    let buttonDelete = '{{t('message.buttonDelete')}}';
+    let buttonCancel = '{{t('message.buttonCancel')}}';
+    let messageDelete = '{{t('message.buttonCancel')}}';
+    let messageSuccess = '{{t('message.messageSuccess')}}';
+    function removeConfirm(val) {
+        Swal.fire({
+            title: messageDelete,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: buttonDelete,
+            cancelButtonText: buttonCancel
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/v1/users/${val}`, {
+                    method: 'delete',
+                    headers: {
+                        'x-csrf-token': document.getElementsByName('_csrf')[0].value
+                    }
+                }).then((respnose) => respnose.json())
+                
+                    .then((respnose) => {
+                        console.log(respnose)
+                        if (respnose.message == 'completed') {
+                            Swal.fire(
+                                messageSuccess,
+                                'success'
+                            )
+                            setTimeout(()=> {
+                                window.location.reload()
+                            },1000)
+                        }
+
+                    })
+
+            }
+        })
+    }
+</script>
 @end

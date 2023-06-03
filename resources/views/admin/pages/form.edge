@@ -7,7 +7,7 @@
 <section class="mt-6">
     <form method="POST" action="{{route(type.route)}}?_method={{type.method}}">
         {{ csrfField() }}
-        <input type="hidden" name="slug" value="OTH" />
+        <input type="hidden" name="slug" value="{{content?.slug == 'FAQ' ? 'FAQ':'OTH'}}" />
         <input type="hidden" name="id" value="{{content?.id || ''}}" />
         <input type="hidden" name="act" value="/admin/other" />
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg sm:p-6 dark:bg-gray-800 dark:border-gray-700">
@@ -54,19 +54,16 @@
 @end
 @section('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+<script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
 <script>
     ClassicEditor
         .create(document.querySelector('#editor1'), {
-            // ... other configuration options ...
-            simpleUpload: {
-                // The URL that the images will be uploaded to
-                uploadUrl: 'upload.php',
-
-                // Enable CORS so that the server can accept requests from CKEditor
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                }
-            }
+             mediaEmbed: {
+                previewsInData:true
+            },
+            ckfinder: {
+                uploadUrl: `/v1/uploadCk?_csrf=${document.getElementsByName('_csrf')[0].value}`
+            },
         })
         .then(editor => {
             console.log('Editor was initialized', editor);

@@ -1,0 +1,195 @@
+@layout('layouts/guest')
+@set('title', 'NT2-ICT-My Profile')
+@set('categoriesNavbar',category)
+@set('otherItem',otherItem)
+@section('body')
+<div class="flex justify-between">
+    <h1 class="text-3xl">{{t('profile.account')}}</h1>
+    <button type="button" onclick="getEdit()"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{t('admin.button.edit')}}</button>
+</div>
+<div class="py-11" id="showUserDetail">
+    <div class="relative">
+        <img class="w-[80px] h-[80px] rounded-full"
+            src="{{userDetail?.avatar == null ? '/images/user.png': userDetail?.avatar}}" alt="">
+        <span
+            class="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+    </div>
+    <div class="grid md:grid-cols-2 md:gap-6 mt-10">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_first_name" id="floating_first_name" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.firstname}}" />
+            <label for="floating_first_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.firstname')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_last_name" id="floating_last_name" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.lastname}}" />
+            <label for="floating_last_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.lastname')}}</label>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.mobile}}" />
+            <label for="floating_phone"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.mobile')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_company" id="floating_company" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail.email}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.email')}}</label>
+        </div>
+    </div>
+    <h1 class="mt-3 mb-3">{{t('profile.gender')}}</h1>
+    <div class="flex items-center mb-4">
+        <input id="default-radio-1" type="radio" value="M" name="default-radio" disabled {{ userDetail?.sex=='M'
+            ? 'checked' :''}}
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="default-radio-1"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{t('profile.sex_male')}}</label>
+    </div>
+
+    <div class="flex items-center">
+        <input id="default-radio-2" type="radio" value="F" name="default-radio" disabled {{ userDetail?.sex=='F'
+            ? 'checked' :''}}
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="default-radio-2"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{t('profile.sex_female')}}</label>
+    </div>
+    <h1 class="py-5">{{t('profile.address')}}</h1>
+    <div class="grid md:grid-cols-3 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.province}}" />
+            <label for="floating_phone"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.province')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_company" id="floating_company" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail.district}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.district')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="floating_company" id="floating_company" disabled
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail.village}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.village')}}</label>
+        </div>
+    </div>
+</div>
+
+<form class="py-11 hidden" id="FormUserDetail" action="{{route('UpdateProfile')}}?_method=PUT" method="post">
+    {{csrfField()}}
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="firstname" id="floating_first_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.firstname}}" />
+            <label for="floating_first_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.firstname')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="lastname" id="floating_last_name"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.lastname}}" />
+            <label for="floating_last_name"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.lastname')}}</label>
+        </div>
+    </div>
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="number" name="mobile" id="floating_phone"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.mobile}}" />
+            <label for="floating_phone"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.mobile')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="email" id="floating_company"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail.email}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.email')}}</label>
+        </div>
+    </div>
+    <h1 class="mt-3 mb-3">{{t('profile.gender')}}</h1>
+    <div class="flex items-center mb-4">
+        <input id="gendermale" type="radio" value="M" name="sex" {{ userDetail?.sex=='M' ? 'checked' :''}}
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="gendermale"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{t('profile.sex_male')}}</label>
+    </div>
+
+    <div class="flex items-center">
+        <input id="genfemale" type="radio" value="F" name="sex" {{ userDetail?.sex=='F' ? 'checked' :''}}
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label for="genfemale"
+            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{t('profile.sex_female')}}</label>
+    </div>
+    <h1 class="py-5">{{t('profile.address')}}</h1>
+    <div class="grid md:grid-cols-3 md:gap-6">
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="province" id="floating_phone"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " required value="{{userDetail?.province || ''}}" />
+            <label for="floating_phone"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.province')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="district" id="floating_company"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " value="{{userDetail.district || ''}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.district')}}</label>
+        </div>
+        <div class="relative z-0 w-full mb-6 group">
+            <input type="text" name="village" id="floating_company"
+                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" " value="{{userDetail.village || ''}}" />
+            <label for="floating_company"
+                class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('form.village')}}</label>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div></div>
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Default</button>
+    </div>
+</form>
+@end
+{{--
+@layout('layouts/main')
+@set('title', 'NT2-ICT-My Profile')
+@section('body')
+<section>
+    <div class="max-w-screen-xl mx-auto flex flex-row">
+        @!component('components/asideProfile')
+        <div class="px-5 flex-1 mt-10">
+
+
+        </div>
+    </div>
+</section>
+@end
+@section('scripts')
+<script>
+    function getEdit() {
+        let elshow = document.getElementById('showUserDetail')
+        let elform = document.getElementById('FormUserDetail')
+        elshow.classList.add('hidden')
+        elform.classList.remove('hidden')
+        elform.classList.add('block')
+    }
+</script>
+@end --}}

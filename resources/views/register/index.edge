@@ -6,43 +6,44 @@
     class="bg-[url('http://127.0.0.1:3333/images/bg/bg-line-connect.jpg')] bg-cover  bg-blur h-screen fixed w-screen">
     <main class="h-screen flex w-screen items-center justify-center">
         <div
-            class="flex max-w-[960px] max-h-[640px] content-center items-stretch items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0">
+            class="flex max-w-[960px] max-h-[640px] content-center items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0">
             <div class="w-screen md:w-[50%] bg-cover bg-[url('http://127.0.0.1:3333/images/bg/login-bg.jpg')] p-9">
                 <div class="items-center mt-4">
-                    <h1 class="text-gray-800 text-3xl">{{t('login.header_image_login')}}</h1>
-                    <p class="text-gray-800  text-xl">{{t('login.description_login')}}</p>
+                    <h1 class="text-white text-3xl">{{t('login.header_image_login')}}</h1>
+                    <p class="text-white  text-xl">{{t('login.description_login')}}</p>
                 </div>
             </div>
-            <div class="w-screen md:w-[50%] px-5 sm:p-8 dark:bg-gray-800">
-                <div class="w-full  space-y-8 sm:p-8 rounded-lg shadow dark:bg-gray-800">
+            <div class="w-screen md:w-[50%] px-5 sm:p-8 bg-white">
+                <div class="w-full  space-y-8 sm:p-8 rounded-lg">
                     <h2 class="text-2xl font-bold text-gray-800 text-center">{{t('form.signup')}}</h2>
                     <form class="mt-8 space-y-6" action="{{route('ClientRegister')}}" method="POST">
+                        <input type="hidden" value="2" name="role"/>
                         {{ csrfField() }}
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <div class="relative">
                                     <input type="text" id="lfirstname"
-                                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none text-gray-300 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        class="block px-2.5 pb-2.5 pt-4 w-full text-sm  bg-transparent rounded-lg border-1 border-gray-300 appearance-none text-gray-500 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                         placeholder=" " name="firstname" />
                                     <label for="lfirstname"
                                         class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.firstname')}}</label>
                                 </div>
-                                @if(flashMessages.get('errors.firstname'))
+                                @if(flashMessages.get('errors.messages.firstname'))
                                 <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                    {{flashMessages.get('errors.firstname')}}</p>
+                                    {{t(flashMessages.get('errors.messages.firstname'))}}</p>
                                 @endif
                             </div>
                             <div>
                                 <div class="relative">
                                     <input type="text" id="llastname"
-                                        class="block text-gray-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                        class="block text-gray-500 px-2.5 pb-2.5 pt-4 w-full text-sm bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                         placeholder=" " name="lastname" />
                                     <label for="llastname"
                                         class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.lastname')}}</label>
                                 </div>
-                                @if(flashMessages.get('errors.lastname'))
+                                @if(flashMessages.get('errors.messages.lastname'))
                                 <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                    {{flashMessages.get('errors.lastname')}}</p>
+                                    {{t(flashMessages.get('errors.messages.lastname'))}}</p>
                                 @endif
                             </div>
                         </div>
@@ -54,9 +55,9 @@
                                 <label for="lemail"
                                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.email')}}</label>
                             </div>
-                            @if(flashMessages.get('errors.email'))
+                            @if(flashMessages.get('errors.messages.email'))
                             <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                {{flashMessages.get('errors.email')}}</p>
+                                {{t(flashMessages.get('errors.messages.email'))}}</p>
                             @endif
                         </div>
                         <div>
@@ -67,9 +68,9 @@
                                 <label for="lmobile"
                                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.mobile')}}</label>
                             </div>
-                            @if(flashMessages.get('errors.mobile'))
+                            @if(flashMessages.get('errors.messages.mobile'))
                             <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                {{flashMessages.get('errors.mobile')}}</p>
+                                {{t(flashMessages.get('errors.messages.mobile'))}}</p>
                             @endif
                         </div>
                         <div>
@@ -80,9 +81,9 @@
                                 <label for="lpassword"
                                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.password')}}</label>
                             </div>
-                            @if(flashMessages.get('errors.password'))
+                            @if(flashMessages.get('errors.messages.password'))
                             <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                {{flashMessages.get('errors.password')}}</p>
+                                {{t(flashMessages.get('errors.messages.password'))}}</p>
                             @endif
                         </div>
                         <div>
@@ -93,9 +94,9 @@
                                 <label for="lcpassword"
                                     class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{t('form.cpassword')}}</label>
                             </div>
-                            @if(flashMessages.get('errors.cpassword'))
+                            @if(flashMessages.get('errors.messages.cpassword'))
                             <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
-                                {{flashMessages.get('errors.cpassword')}}</p>
+                                {{flashMessages.get('errors.messages.cpassword')}}</p>
                             @endif
                         </div>
 

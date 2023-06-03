@@ -30,7 +30,8 @@ export default class RegisterValidator {
     email: schema.string(),
     password: schema.string([
       rules.confirmed('cpassword')
-    ])
+    ]),
+    role:schema.string()
   })
 
   /**
@@ -44,5 +45,12 @@ export default class RegisterValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'firstname.required': 'form.enter_required',
+    'lastname.required': 'form.enter_required',
+    'email.required': 'form.enter_required',
+    'mobile.required': 'form.enter_required',
+    'password.required': 'form.enter_required',
+    'role.required': 'form.enter_required',
+  }
 }

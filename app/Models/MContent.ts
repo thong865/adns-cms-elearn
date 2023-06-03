@@ -1,7 +1,10 @@
 import { DateTime } from 'luxon'
 const moment = require('moment')
-import { BaseModel, HasOne, beforeSave, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, HasOne, beforeSave, column, hasMany, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import MContentCategory from 'App/Models/MContentCategory'
+import McontentComment from 'App/Models/McontentComment'
+import Muser from 'App/Models/Muser'
+import Mfileupload from 'App/Models/Mfileupload'
 
 export default class MContent extends BaseModel {
   public static table = 'sstb_contents'
@@ -20,6 +23,9 @@ export default class MContent extends BaseModel {
   @column({ columnName: 'stat' })
   public status: string
 
+  @column()
+  public maker: number
+
   @column.dateTime({ autoCreate: true ,consume:((val)=> {
     return moment(val).format('MM/DD/YYYY')
   })})
@@ -34,13 +40,30 @@ export default class MContent extends BaseModel {
   })
   public category: HasOne<typeof MContentCategory>
 
+  @hasOne(() => Muser, {
+    localKey: 'maker',
+    foreignKey: 'id'
+  })
+  public owner: HasOne<typeof Muser>
+
 
   @beforeSave()
   public static async categorySlug(con: MContent) {
     if (con.$dirty.cateId) {
       const slug = await MContentCategory.findOrFail(con.cateId)
       con.slug = slug.slug
-      con.status = 'P'
     }
   }
+
+  @hasMany(()=> McontentComment,{
+    localKey:'id',
+    foreignKey:'contentId'
+  })
+  public comments: HasMany<typeof McontentComment>
+
+  @hasMany(()=> Mfileupload,{
+    localKey:'id',
+    foreignKey:'contentId'
+  })
+  public files: HasMany<typeof Mfileupload>
 }

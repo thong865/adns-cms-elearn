@@ -66,8 +66,6 @@
                 <tr
                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                        {{-- <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg"
-                            alt="Jese image"> --}}
                         <div class="pl-3">
                             <a href="{{route('adminContentDetail',{params:{id:ut.id}})}}"
                                 class="text-base font-semibold">{{ut.title}}</a>
@@ -89,15 +87,14 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex items-center">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {{ut.status== 'P' ? t('admin.status_public') : t('admin.status_unpublic')}}
                         </div>
                     </td>
                     <td class="px-6 py-4 flex justify-between gap-2">
                         <div>
                         </div>
                         <div>
-                            @if(ut.slug != 'FAQ')
-                            <a
+                            <a href="/admin/other/form?typ=edit&id={{ut.id}}"
                                 class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-gray-200 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-4 h-4"
                                     viewBox="0 0 48 48">
@@ -106,6 +103,7 @@
                                     </path>
                                 </svg>
                             </a>
+                            @if(ut.slug != 'FAQ')
                             <button type="button" onclick="removeConfirm({{ut.id}})"
                                 class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
@@ -128,14 +126,18 @@
 @end
 @section('scripts')
 <script>
+    let delCon ='{{t('admin.delete_confirme')}}'
+    let delConButon ='{{t('admin.delete_yes')}}'
+    let delNoButon ='{{t('admin.delete_no')}}'
+    let delSuccess ='{{t('admin.delete_success')}}'
     function removeConfirm(val) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: `${delCon}`,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: `${delConButon}`,
+            cancelButtonText: `${delNoButon}`
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch(`/v1/content/${val}`, {
@@ -147,10 +149,12 @@
                     .then((respnose) => {
                         if (respnose.message == 'completed') {
                             Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
+                                `${delSuccess}`,
                                 'success'
                             )
+                            setTimeout(()=> {
+                                window.location.reload()
+                            },1000)
                         }
 
                     })

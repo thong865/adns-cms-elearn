@@ -3,12 +3,20 @@
 @set('dataUser',dataUser.hasRole.links)
 @section('body')
 <section>
-  <div class="max-w-screen-xl mx-auto">
+  <div class="max-w-screen-md mx-auto">
     <div class="py-5 flex justify-between">
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{contents.title}}</h5>
-      <a href="/admin/other/form?typ=edit&id={{contents.id}}" class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{t('admin.buttn.edit')}}</a>
+      <a href="{{contents?.slug == 'BLOG' ? '/admin/blogs/form?typ=edit&id=' :''}}{{contents?.slug == 'KNWL' ? '/admin/knowledges/form?typ=edit&id=' :''}}{{contents?.id || ''}}"
+        class="inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">{{t('admin.button.edit')}}</a>
     </div>
-    {{{contents.body}}}
+    <div class=""><img class="w-full max-h-[320px] rounded-xl" src="{{contents?.background}}" alt="{{contents?.title}}" /></div>
+    <div class="mt-4">{{{contents.body}}}</div>
+    <div class="mt-4">
+     @each((fi,i) in contents?.files)
+      <embed policy="SAMEORIGIN" src="{{fi.file_path}}&embedded=true"
+            type="application/pdf" frameBorder="0" scrolling="auto" class="h-screen" width="100%"/>
+      @endeach
+    </div>
   </div>
 
 </section>

@@ -5,9 +5,10 @@
 <section class="mt-6">
     {{ csrfField() }}
     <div class="relative overflow-x-auto shadow sm:rounded-lg">
-        <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900 py-2 px-3">
-            <div class="">
-                {{t('admin.blogs.index')}}
+        <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900 py-2 px-3 sticky sticky:top-11">
+            <div class="font-blod">
+                {{t('admin.blogs.index')}} <br/>
+                <span class="text-sm text-gray-400">{{t('admin.list_item')}} {{blogs.total}} {{t('admin.list')}}</span>
             </div>
             <div class="flex gap-2">
                 <label for="table-search" class="sr-only">Search</label>
@@ -50,6 +51,9 @@
                         {{t('thead.status')}}
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        {{t('thead.maker')}}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -76,24 +80,6 @@
                                     </svg>
                                     {{ut.createdAt}}
                                 </div>
-                                <div class="flex gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1"
-                                        viewBox="0 0 24 24" class="w-5 h-5">
-                                        <path
-                                            d="m12.379,20.21c.195.195.195.512,0,.707-.098.098-.226.146-.354.146s-.256-.049-.354-.146L.934,10.179c-.195-.195-.195-.512,0-.707s.512-.195.707,0l10.739,10.738Zm6.509-2.029l.003.003c.012-.016.005-.01-.003-.003ZM1.02,13.056c-.195-.195-.512-.195-.707,0s-.195.512,0,.707l5.728,5.728c.098.098.226.146.354.146s.256-.049.354-.146c.195-.195.195-.512,0-.707L1.02,13.056Zm2.594-5.91c-.195-.195-.512-.195-.707,0s-.195.512,0,.707l12.428,12.428c.098.098.226.146.354.146s.256-.049.354-.146c.195-.195.195-.512,0-.707L3.613,7.146Zm20.24,16c.195.195.195.512,0,.707-.098.098-.226.146-.354.146s-.256-.049-.354-.146L.146.854C-.049.658-.049.342.146.146S.658-.049.854.146l4.634,4.634c1.946-1.181,4.11-1.78,6.434-1.78,6.247,0,9.817,4.283,11.39,6.836.92,1.494.92,3.35,0,4.844-.71,1.153-1.932,2.818-3.717,4.203,0,0-.001,0-.002.001l4.262,4.262Zm-8.693-8.693c1.219-1.568,1.108-3.842-.331-5.282s-3.714-1.55-5.282-.331l5.613,5.613Zm3.731,3.731c1.667-1.292,2.901-2.945,3.568-4.028.72-1.17.72-2.625,0-3.795-1.463-2.375-4.777-6.361-10.538-6.361-2.054,0-3.971.508-5.704,1.51l2.619,2.619c1.962-1.606,4.87-1.494,6.7.336s1.942,4.738.336,6.7l3.017,3.017c-.008.008-.015.017.003.003Z" />
-                                    </svg>
-
-                                    120k
-                                </div>
-                                <div class="flex gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1"
-                                        viewBox="0 0 24 24" class="w-5 h-5">
-                                        <path
-                                            d="M12,23.66c-.36,0-.72-.13-1-.38l-3.9-3.28H3.5c-1.93,0-3.5-1.57-3.5-3.5V3.5C0,1.57,1.57,0,3.5,0H20.5c1.93,0,3.5,1.57,3.5,3.5v13c0,1.93-1.57,3.5-3.5,3.5h-3.53l-3.99,3.29c-.28,.25-.63,.37-.98,.37ZM3.5,1c-1.38,0-2.5,1.12-2.5,2.5v13c0,1.38,1.12,2.5,2.5,2.5h3.79c.12,0,.23,.04,.32,.12l4.05,3.41c.2,.18,.48,.18,.67,0l4.14-3.42c.09-.07,.2-.11,.32-.11h3.71c1.38,0,2.5-1.12,2.5-2.5V3.5c0-1.38-1.12-2.5-2.5-2.5H3.5Zm5.24,15.02c-.21,0-.42-.07-.6-.2-.34-.25-.48-.7-.36-1.1l.94-3.01-2.37-1.93c-.33-.28-.44-.72-.3-1.11,.14-.39,.52-.65,.94-.65h3l1.06-2.85c.14-.37,.51-.62,.94-.62s.8,.24,.94,.62l1.06,2.85h3c.42,0,.8,.26,.94,.66,.14,.39,.03,.83-.29,1.1l-2.37,1.93,.98,2.98c.13,.4,0,.85-.34,1.11-.34,.26-.8,.28-1.16,.05l-2.75-1.79-2.71,1.81c-.17,.11-.36,.17-.56,.17Zm-1.74-7.01l2.62,2.13c.16,.13,.22,.34,.16,.54l-1.04,3.34,2.98-1.99c.17-.11,.38-.11,.55,0l3.03,1.97-1.09-3.31c-.06-.2,0-.41,.16-.54l2.63-2.14h-3.36c-.21,.01-.4-.12-.47-.31l-1.18-3.18-1.18,3.18c-.07,.2-.26,.33-.47,.33h-3.35Z" />
-                                    </svg>
-                                    120k
-                                </div>
-
                             </div>
                         </div>
                     </th>
@@ -101,9 +87,18 @@
                         {{ut?.category?.title}}
                     </td>
                     <td class="px-6 py-4">
+                        @if(ut?.status == 'P')
                         <div class="flex items-center">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {{t('admin.status_public')}}
                         </div>
+                    @else
+                      <div class="flex items-center">
+                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> {{t('admin.status_unpublic')}}
+                        </div>
+                    @end
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ut?.owner?.firstname || ''}} {{ut?.owner?.lastname || ''}}
                     </td>
                     <td class="px-6 py-4 flex gap-2">
                         <a href="{{route('adminBlogsform',{qs:{typ:'edit',id:ut.id}})}}"
@@ -130,21 +125,27 @@
         </table>
     </div>
     <div class="flex justify-between py-5">
-        <div>{{blogs.lastPage}}</div>
-        @!component('components/pagination',{lastPage})
+        <div>
+            <div>{{t('admin.all_page')}} {{blogs.lastPage}} | {{t('admin.current_page')}} {{blogs.currentPage}}</div>
+        </div>
+        @!component('components/pagination',{blogs:blogs,slug:'/admin/blogs'})
     </div>
 </section>
 @end
 @section('scripts')
 <script>
+    let delCon ='{{t('admin.delete_confirme')}}'
+    let delConButon ='{{t('admin.delete_yes')}}'
+    let delNoButon ='{{t('admin.delete_no')}}'
+    let delSuccess ='{{t('admin.delete_success')}}'
     function removeConfirm(val) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: `${delCon}`,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: `${delConButon}`,
+            cancelButtonText: `${delNoButon}`
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch(`/v1/content/${val}`, {
@@ -157,9 +158,11 @@
                         if (respnose.message == 'completed') {
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
                                 'success'
                             )
+                            setTimeout(()=> {
+                                window.location.reload()
+                            },300)
                         }
 
                     })

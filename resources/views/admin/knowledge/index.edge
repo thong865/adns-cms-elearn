@@ -52,6 +52,9 @@
                         {{t('thead.status')}}
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        {{t('thead.maker')}}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -91,13 +94,23 @@
                     <td class="px-6 py-4">
                         {{ut?.category?.title}}
                     </td>
+                    
                     <td class="px-6 py-4">
+                    @if(ut?.status == 'P')
                         <div class="flex items-center">
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Online
+                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> {{t('admin.status_public')}}
                         </div>
+                    @else
+                      <div class="flex items-center">
+                            <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> {{t('admin.status_unpublic')}}
+                        </div>
+                    @end
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ut?.owner?.firstname || ''}} {{ut?.owner?.lastname || ''}}
                     </td>
                     <td class="px-6 py-4 flex gap-2">
-                        <a
+                        <a href="{{route('adminknowledgesForm',{qs:{typ:'edit',id:ut.id}})}}"
                             class="inline-flex items-center px-2 py-2 text-sm font-medium text-center text-white bg-gray-200 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-4 h-4" viewBox="0 0 48 48">
                                 <path
@@ -120,18 +133,29 @@
             </tbody>
         </table>
     </div>
+     <div class="flex justify-between py-5">
+        <div>
+            <div>{{t('admin.all_page')}} {{data.lastPage}} | {{t('admin.current_page')}} {{data.currentPage}}</div>
+        </div>
+        @!component('components/pagination',{blogs:data,slug:'/admin/knowledges'})
+    </div>
 </section>
 @end
 @section('scripts')
+<script src="/dist/ck5/build/ckeditor.js"></script>
 <script>
+    let delCon ='{{t('admin.delete_confirme')}}'
+    let delConButon ='{{t('admin.delete_yes')}}'
+    let delNoButon ='{{t('admin.delete_no')}}'
+    let delSuccess ='{{t('admin.delete_success')}}'
     function removeConfirm(val) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: `${delCon}`,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: `${delConButon}`,
+            cancelButtonText: `${delNoButon}`
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch(`/v1/content/${val}`, {
@@ -144,9 +168,11 @@
                         if (respnose.message == 'completed') {
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
                                 'success'
                             )
+                            setTimeout(()=>{
+                                window.location.reload()
+                            },300)
                         }
 
                     })

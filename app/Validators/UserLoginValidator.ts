@@ -39,5 +39,8 @@ export default class UserLoginValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+    'username.required': 'form.enter_required',
+    'password.required': 'form.enter_required',
+  }
 }

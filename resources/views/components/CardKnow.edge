@@ -1,11 +1,27 @@
-<div class="bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+<div class="bg-white rounded-lg shadow relative">
     <a href="{{route('ContentDetail',{id:data?.id})}}">
         <img class="{{ImageClass}} w-full" src="{{data?.background}}" alt="" />
     </a>
+    <div class="relative">
+    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium p-1 rounded absolute right-2 mt-[-10px] ">{{data?.category?.title}}</span>
+    </div>
     <div class="p-5">
         <a href="{{route('ContentDetail',{id:data?.id})}}">
-            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 text-ellipsis overflow-hidden max-h-[50px]">{{data?.title}}</h5>
+            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 text-ellipsis overflow-hidden max-h-[50px] hover:text-blue-600">{{data?.title}}</h5>
         </a>
         <div class="mb-3 font-normal text-gray-700 dark:text-gray-400 text-ellipsis overflow-hidden max-h-[50px]">{{{data?.body}}}</div>
+    </div>
+    <div class="flex justify-between px-5 py-2">
+        <div class="text-sm">{{data?.createdAt}}</div>
+        <div>
+        
+        <div class="flex items-center space-x-4">
+            <img class="w-6 h-6 rounded-full border" src="{{data?.owner?.avatar || '/images/user.png'}}" alt="">
+            <div class="font-medium dark:text-white">
+                <div>{{data?.owner?.firstname}}</div>
+            </div>
+        </div>
+
+        </div>
     </div>
 </div>

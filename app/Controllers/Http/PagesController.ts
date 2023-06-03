@@ -1,14 +1,21 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import MContent from 'App/Models/MContent'
 import MContentCategory from 'App/Models/MContentCategory'
+import McontentComment from 'App/Models/McontentComment'
 import Muser from 'App/Models/Muser'
+import CommentValidator from 'App/Validators/CommentValidator'
 
 export default class PagesController {
     public async HomePage({ view }: HttpContextContract) {
         const QAFrequency = await MContent.query().where('slug', 'QAFG')
+        const Carousels = await MContent.query().where('slug', 'CRSEL')
         const Sections = await MContent.query().where('slug', 'HOME1')
-        const blogs = await MContent.query().where('slug', 'BLOG').paginate(1, 8)
-        const knowledges = await MContent.query().where('slug', 'KNWL').paginate(1, 8)
+        const blogs = await MContent.query().preload('owner',(q)=> {
+            q.select('maker','avatar','firstname','lastname')
+          }).where('slug', 'BLOG').paginate(1, 8)
+        const knowledges = await MContent.query().preload('owner',(q)=> {
+            q.select('maker','avatar','firstname','lastname')
+          }).preload('category').where('slug', 'KNWL').paginate(1, 8)
         const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('welcome', {
@@ -17,6 +24,7 @@ export default class PagesController {
             knowledges,
             blogs,
             category,
+            Carousels,
             otherItem
         })
     }
@@ -26,9 +34,13 @@ export default class PagesController {
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         let conents;
         if (qkey || cat) {
-            conents = await MContent.query().where('slug', 'KNWL').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id=' + cat : ''}`).paginate(1, 50)
+            conents = await MContent.query().preload('owner',(q)=> {
+                q.select('maker','avatar','firstname','lastname')
+            }).where('slug', 'KNWL').preload('category').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id=' + cat : ''}`).paginate(1, 50)
         } else {
-            conents = await MContent.query().where('slug', 'KNWL').paginate(1, 50)
+            conents = await MContent.query().where('slug', 'KNWL').preload('owner',(q)=> {
+                q.select('maker','avatar','firstname','lastname')
+            }).preload('category').paginate(1, 50)
         }
         return view.render('knowledge/index', {
             conents, qkey: {
@@ -40,12 +52,12 @@ export default class PagesController {
     }
     public async faqPage({ view }: HttpContextContract) {
         const content = await MContent.query().where('slug', 'FAQ').first()
-        // const category = await MContentCategory.query().where('slug', 'KNWL')
+        const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('Faq/index', {
             content,
             otherItem,
-            // category
+            category
         })
     }
     public async otherPage({ request, view }: HttpContextContract) {
@@ -79,11 +91,15 @@ export default class PagesController {
         })
     }
     public async ContentDetail({ view, params, request }: HttpContextContract) {
-        const blogs = await MContent.query().where('id', params.id).preload('category').first()
+        const blogs = await MContent.query().where('id', params.id).preload('category').preload('owner',(q)=> {
+            q.select('maker','avatar','firstname','lastname')
+          }).preload('files').first()
         const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('stat', 'P')
+        const comments = await McontentComment.query().where('contentId',blogs?.$attributes.id || '').preload('user')
         return view.render('content-detail', {
             blogs,
+            comments,
             category,
             otherItem,
         })
@@ -119,7 +135,7 @@ export default class PagesController {
         const dataUser = await Muser.query().select('id', 'firstname', 'lastname', 'email', 'mobile', 'role').preload('hasRole', (qr) => {
             qr.preload('links')
         }).where('id', userAuth.id).first()
-        const contents = await MContent.query().where('id', params.id).first()
+        const contents = await MContent.query().where('id', params.id).preload('category').preload('files').preload('comments').first()
         return view.render('admin/contentInfo', {
             contents,
             dataUser
@@ -139,5 +155,11 @@ export default class PagesController {
         } catch (error) {
 
         }
+    }
+
+    public async ContentComment({ request,response, auth }: HttpContextContract) {
+        const payload = await request.validate(CommentValidator)
+        const content = await MContent.query().where('id',payload.contentId)
+        content.preload('comments').create(payload)
     }
 }

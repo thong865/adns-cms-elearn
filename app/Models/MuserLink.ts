@@ -6,8 +6,8 @@ export default class MuserLink extends BaseModel {
   public id: number;
   @column()
   public title: string;
-  @column()
-  public svg_icon: string;
+  @column({columnName:'svg_icon'})
+  public icon: string;
   @column()
   public order: number;
   @column()

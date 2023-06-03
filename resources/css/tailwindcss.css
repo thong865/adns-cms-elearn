@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.sbs-footer {
+    @apply bg-[#192a67] text-white w-full;
+}
+.sbs-footer .text-header {
+    @apply text-white font-semibold text-xl; 
+}
+.sbs-footer .footer-list  li  a {
+    @apply text-white text-base;
+}

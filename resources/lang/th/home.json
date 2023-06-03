@@ -1,0 +1,21 @@
+{
+    "btn_knowledge": "ຄວາມຮູ້",
+    "section-1": "ลวบลวมเรื่องความรู้ด้านไอทีที่คุณสนใจ",
+    "knowledge-title":"แนะนำความรู้ล่าสุด",
+    "blog-title":"แนะนำข่าวสารล่าสุด",
+    "question-ask-title":"คำถามที่พบบ่อย",
+    "question-ask-description":"คำถามที่พบบ่อย",
+    "register_exist":"Hav you already an account?",
+    "hadcarone": {
+        "title": "ระบบสารสนเทศ",
+        "subtitle": "เพื่อจัดการความรู้การปฏิบัติงานด้าน ICT บริษัทเขื่อนไฟฟ้าน้ำเทิน 2",
+        "titleStyle": {
+            "className": "mb-4 text-5xl font-extrabold tracking-tight leading-none md:text-4xl lg:text-5xl text-base-200"
+        },
+        "subtitleStyle": {
+            "className": "mb-6 text-3xl font-normal text-gray-500 lg:text-xl lg:text-base-200 dark:text-gray-400"
+        }
+    },
+    "header_image_login":"Register",
+    "description_login":"Rgiester"
+}

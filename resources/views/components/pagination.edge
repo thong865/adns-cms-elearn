@@ -3,7 +3,7 @@
         <li>
             <a href="#"
                 class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                <span class="sr-only">{{t('')}}</span>
+                <span class="sr-only">search</span>
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
@@ -12,10 +12,10 @@
                 </svg>
             </a>
         </li>
-        @each(i in lastPage)
+        @each(anchor in blogs.getUrlsForRange(1, blogs.lastPage))
         <li>
-            <a href="#"
-                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+            <a href="{{slug}}{{ anchor.url }}"
+                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ anchor.page }}</a>
         </li>
         @endeach
         <li>

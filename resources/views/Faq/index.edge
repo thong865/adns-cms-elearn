@@ -1,6 +1,6 @@
 @layout('layouts/main')
-@set('title', t('navbar.faq'))
-@set('categories',category)
+@set('title', content?.title)
+@set('categoriesNavbar',category)
 @section('body')
 <section>
   {{{content?.body || ''}}}

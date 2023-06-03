@@ -1,0 +1,53 @@
+{
+    "knowledge": {
+        "index": "ຈັດການຄວາມຮູ້",
+        "entries":"ທັງໝົດ",
+        "category":"ໝວດໝູ່"
+    },
+    "blogs": {
+        "index": "ຈັດການຂ່າວສານ",
+        "entries":"ທັງໝົດ",
+        "category":"ໝວດໝູ່"
+    },
+    "section":{
+        "title":"Sections"
+    },
+    "other":{
+        "title":"E-learning"
+    },
+    "button":{
+        "edit":"ແກ້ໄຂ",
+        "addnew":"ເພີ່ມໃໝ່",
+        "save":"ບັນທຶກ"
+    },
+    "admin_page_title":"ຫົວຂໍ້",
+    "createPage":"ສ້າງໜ້າໄໝ່",
+    "create_newuser":"ເພີ່ມຜູ້ໃຊ້ງານໃໝ່",
+    "user_index":"ຜູ້ໃຊ້ງານລະບົບ",
+    "search_blog":"ຄົ້ນຫາບົດຄວາມ",
+    "search_knowledge":"ຄົ້ນຫາຫົວຂໍ້ຄວາມຮູ້",
+    "search_users":"ຄົ້ນຫາຜູ້ໃຊ້ງານ",
+    "search":"ຄົ້ນຫາ",
+    "new-blog-category":"ເພີ່ມໝວດໝູ່ຂ່າວສານ",
+    "search-category-title":"ຄົ້ນຫາໝວດໝູ່",
+    "list_item":"ລາຍການທັງໝົດ",
+    "list":"ລາຍການ",
+    "all_page":"ທັງໝົດ",
+    "current_page":"ໜ້າປະຈຸບັນ",
+    "form":{
+        "title":"ຫົວຂໍ້",
+        "background":"ຮູບພື້ນຫລັງ",
+        "content":"ເນື້ອຫາ",
+        "category":"ໝວດໝູ່"
+    },
+    "delete_confirme":"ທ່ານຕ້ອງການລົບບໍ?",
+    "delete_yes":"ແມ່ນ",
+    "delete_no":"ຍົກເລີກ",
+    "delete_success":"ລົບສຳເລັດ",
+    "status":"ສະຖານະ",
+    "status_public":"ສາທາລະນະ",
+    "status_unpublic":"ເຊື່ອງໄວ້ກ່ອນ",
+    "title_dashboard":"ລະບົບເຕັກໂນໂລຊີຂໍ້ມູນຂ່າວສານເພື່ອຈັດການຄວາມຮູ້ການປະຕິບັດງານດ້ານ ICT ບໍລິສັດເຂື່ອນໄຟຟ້ານ້ຳເທີນ 2 ສາທລະນາລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ",
+    "background_upload":"ກົດເພື່ອອັບໂຫລດຂໍ້ມູນ",
+    "file_upload":"ຟາຍອັບໂຫລດ PDF"
+}
