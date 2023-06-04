@@ -21,14 +21,14 @@
                         class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder="" name="title" value="{{content?.title || ''}}" />
                     <label for="small_standard"
-                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('admin.admin_page_title')}}</label>
+                        class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('admin.admin_page_title')}} <span class="text-red-800">*</span></label>
                 </div>
                 @if(content?.slug == 'FAQ')
                 <input type="number" name="cateId" value="{{content?.cateId}}" class="hidden">
                 @else
                 <div>
                     <label for="countries_disabled"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('form.category')}}</label>
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('form.category')}} <span class="text-red-800">*</span></label>
                     <select id="countries_disabled" name="cateId"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         @each(ci in categories)
@@ -38,7 +38,7 @@
                 </div>
                 @endif
 
-                <h1 class="py-5">Code</h1>
+                <h1 class="py-5">Code <span class="text-red-800">*</span></h1>
                 <textarea name="body"
                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{content?.body || ''}}</textarea>
                 <div class="flex justify-between">

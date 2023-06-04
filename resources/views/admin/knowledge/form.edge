@@ -21,7 +21,7 @@
                             class="block w-full px-0 py-2 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder="" name="title" value="{{content?.title || ''}}" />
                         <label for="small_standard"
-                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('admin.form.title')}}</label>
+                            class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{t('admin.form.title')}} <span class="text-red-800">*</span></label>
                     </div>
                     @if(flashMessages.get('errors.messages.title'))
                     <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
@@ -29,7 +29,7 @@
                     @endif
                     <div>
                         <label for="countries_disabled"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('admin.form.category')}}</label>
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{t('admin.form.category')}} <span class="text-red-800">*</span></label>
                         <select id="countries_disabled" name="cateId"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             @each(ci in categories)
@@ -38,7 +38,7 @@
                         </select>
                     </div>
 
-                    <h1 class="py-5">{{t('admin.form.content')}}</h1>
+                    <h1 class="py-5">{{t('admin.form.content')}} <span class="text-red-800">*</span></h1>
                     <textarea id="editor1" name="body">{{content?.body || ''}}</textarea>
                     @if(flashMessages.get('errors.messages.body'))
                     <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
@@ -78,7 +78,7 @@
                 <div class="w-[400px]">
                     <div>
                         <input type="hidden" id="iBackground" name="background" value="{{content?.background || ''}}" />
-                        <h1>{{t('admin.form.background')}}</h1>
+                        <h1>{{t('admin.form.background')}} <span class="text-red-800">*</span></h1>
                         <div class="flex items-center justify-center w-full">
                             <label for="dropzone-file" id="forDropFile"
                                 class="flex flex-col {{content && content?.background != ''  ? 'hidden':'block'}} items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
@@ -118,7 +118,7 @@
                         <p id="outlined_error_help" class="mt-2 text-xs text-red-600">
                             {{t(flashMessages.get('errors.messages.background'))}}</p>
                         @endif
-                        <h1 class="mt-3">{{t('admin.status')}}</h1>
+                        <h1 class="mt-3">{{t('admin.status')}} <span class="text-red-800">*</span></h1>
                         <div class="flex items-center mb-4 mt-4">
                             <input id="disabled-radio-1" type="radio" value="P" name="status" {{content?.status=='P'
                                 ?'checked':'' || 'checked' }}

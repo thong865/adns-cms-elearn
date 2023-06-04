@@ -138,6 +138,7 @@ export default class AdminBlogsController {
       response.redirect(`${act}`);
       // return payload 
     } catch (error) {
+      console.log(error)
       session.flash('errors', error)
       return response.redirect().back()
       // return response.status(200).json(error)

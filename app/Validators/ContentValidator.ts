@@ -27,7 +27,7 @@ export default class ContentValidator {
     title: schema.string(),
     body: schema.string(),
     cateId: schema.number(),
-    background:schema.string(),
+    background:schema.string.nullableAndOptional(),
     slug: schema.string(),
     status:schema.string()
   })
