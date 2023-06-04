@@ -45,8 +45,8 @@
     "delete_no":"ຍົກເລີກ",
     "delete_success":"ລົບສຳເລັດ",
     "status":"ສະຖານະ",
-    "status_public":"ສາທາລະນະ",
-    "status_unpublic":"ເຊື່ອງໄວ້ກ່ອນ",
+    "status_public":"ສາທາລະນະ (Public)",
+    "status_unpublic":"ເຊື່ອງໄວ້ກ່ອນ (Private)",
     "title_dashboard":"ການຈັດການສາລະສົນເທດເພື່ອການຈັດການຄວາມຮູ້ການປະຕິບັດງານດ້ານ ICT ບໍລິສັດໄຟຟ້ານ້ຳເທີນ2 ສາທາລະນະລັດ ປະຊາທິປະໄຕປະຊາຊົນລາວ",
     "background_upload":"ກົດເພື່ອອັບໂຫລດຂໍ້ມູນ",
     "file_upload":"ຟາຍອັບໂຫລດ PDF"
