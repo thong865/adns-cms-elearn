@@ -15,7 +15,7 @@ export default class PagesController {
           }).where('slug', 'BLOG').paginate(1, 8)
         const knowledges = await MContent.query().preload('owner',(q)=> {
             q.select('maker','avatar','firstname','lastname')
-          }).preload('category').where('slug', 'KNWL').orderBy('createdAt','desc').paginate(1, 8)
+          }).preload('category').where('slug', 'KNWL').paginate(1, 8)
         const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         return view.render('welcome', {
@@ -36,11 +36,11 @@ export default class PagesController {
         if (qkey || cat) {
             conents = await MContent.query().preload('owner',(q)=> {
                 q.select('maker','avatar','firstname','lastname')
-            }).where('slug', 'KNWL').preload('category').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id=' + cat : ''}`).orderBy('createdAt','desc').paginate(1, 50)
+            }).where('slug', 'KNWL').preload('category').andWhereRaw(`title like '%${qkey ? qkey : ''}%' ${cat ? 'and cate_id=' + cat : ''}`).paginate(1, 50)
         } else {
             conents = await MContent.query().where('slug', 'KNWL').preload('owner',(q)=> {
                 q.select('maker','avatar','firstname','lastname')
-            }).preload('category').orderBy('createdAt','desc').paginate(1, 50)
+            }).preload('category').paginate(1, 50)
         }
         return view.render('knowledge/index', {
             conents, qkey: {
@@ -77,9 +77,9 @@ export default class PagesController {
         const category = await MContentCategory.query().where('slug', 'KNWL')
         const otherItem = await MContent.query().select('title', 'id').where('slug', 'OTH').andWhere('status', 'P')
         if (qkey) {
-            blogs = await MContent.query().where('slug', 'BLOG').andWhereRaw(`title like '%${qkey ? qkey : ''}%'`).orderBy('createdAt','desc').paginate(1, 50)
+            blogs = await MContent.query().where('slug', 'BLOG').andWhereRaw(`title like '%${qkey ? qkey : ''}%'`).paginate(1, 50)
         } else {
-            blogs = await MContent.query().where('slug', 'BLOG').orderBy('createdAt','desc').paginate(1, 50)
+            blogs = await MContent.query().where('slug', 'BLOG').paginate(1, 50)
         }
         return view.render('blog/index', {
             blogs,

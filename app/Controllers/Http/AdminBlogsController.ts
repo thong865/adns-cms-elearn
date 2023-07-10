@@ -27,7 +27,6 @@ export default class AdminBlogsController {
         .preload('owner', (q) => {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
-        .orderBy('createdAt','desc')
         .andWhereRaw(`title like '%${search ? search : ""}%'`)
         .paginate(page || 1, 8);
     } else {
@@ -37,7 +36,6 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .where("slug", "BLOG")
-        .orderBy('createdAt','desc')
         .paginate(page || 1, 8);
     }
     return view.render("admin/blogs/index", {
@@ -67,7 +65,6 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .andWhereRaw(`title like '%${search ? search : ""}%'`)
-        .orderBy('createdAt','desc')
         .andWhere('maker', userAuth.id)
         .paginate(page || 1, 8);
     } else {
@@ -77,7 +74,6 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .andWhere('maker', userAuth.id)
-        .orderBy('createdAt','desc')
         .where("slug", "BLOG")
         .paginate(page || 1, 8);
     }
@@ -408,7 +404,6 @@ export default class AdminBlogsController {
         .preload('owner', (q) => {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
-        .orderBy('createdAt','desc')
         .andWhereRaw(`title like '%${search ? search : ""}%'`)
         .paginate(page || 1, 50);
     } else {
@@ -417,7 +412,6 @@ export default class AdminBlogsController {
         .preload('owner', (q) => {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
-        .orderBy('createdAt','desc')
         .whereIn("slug", ["KNWL"])
         .paginate(page || 1, 8);
     }
@@ -447,7 +441,6 @@ export default class AdminBlogsController {
         .preload('owner', (q) => {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
-        .orderBy('createdAt','desc')
         .andWhereRaw(`title like '%${search ? search : ""}%'`)
         .andWhere('maker', userAuth.id)
         .paginate(1, 50);
@@ -458,7 +451,6 @@ export default class AdminBlogsController {
           q.select('maker', 'avatar', 'firstname', 'lastname')
         })
         .whereIn("slug", ["KNWL"])
-        .orderBy('createdAt','desc')
         .andWhere('maker', userAuth.id)
         .paginate(1, 50);
     }
