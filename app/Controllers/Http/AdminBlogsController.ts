@@ -381,6 +381,7 @@ export default class AdminBlogsController {
         response.redirect('/admin/other')
       }
     } catch (error) {
+      console.log(error)
       response.redirect().back()
     }
 
